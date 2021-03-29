@@ -3,8 +3,8 @@ div.mxRubberband {
   overflow: hidden;
   border-style: solid;
   border-width: 1px;
-  border-color: #0000FF;
-  background: #0077FF;
+  border-color: #0000ff;
+  background: #0077ff;
 }
 
 .mxCellEditor {
@@ -29,9 +29,9 @@ div.mxRubberband {
 }
 
 div.mxWindow {
-  -webkit-box-shadow: 3px 3px 12px #C0C0C0;
-  -moz-box-shadow: 3px 3px 12px #C0C0C0;
-  box-shadow: 3px 3px 12px #C0C0C0;
+  -webkit-box-shadow: 3px 3px 12px #c0c0c0;
+  -moz-box-shadow: 3px 3px 12px #c0c0c0;
+  box-shadow: 3px 3px 12px #c0c0c0;
   /* background: url('../images/window.gif'); */
   border: 1px solid #c3c3c3;
   position: absolute;
@@ -79,7 +79,7 @@ td.mxWindowPane input,
 td.mxWindowPane select,
 td.mxWindowPane textarea,
 td.mxWindowPane radio {
-  border-color: #8C8C8C;
+  border-color: #8c8c8c;
   border-style: solid;
   border-width: 1px;
   font-family: Arial;
@@ -127,10 +127,10 @@ img.mxToolbarModeSelected {
 }
 
 div.mxTooltip {
-  -webkit-box-shadow: 3px 3px 12px #C0C0C0;
-  -moz-box-shadow: 3px 3px 12px #C0C0C0;
-  box-shadow: 3px 3px 12px #C0C0C0;
-  background: #FFFFCC;
+  -webkit-box-shadow: 3px 3px 12px #c0c0c0;
+  -moz-box-shadow: 3px 3px 12px #c0c0c0;
+  box-shadow: 3px 3px 12px #c0c0c0;
+  background: #ffffcc;
   border-style: solid;
   border-width: 1px;
   border-color: black;
@@ -143,9 +143,9 @@ div.mxTooltip {
 }
 
 div.mxPopupMenu {
-  -webkit-box-shadow: 3px 3px 12px #C0C0C0;
-  -moz-box-shadow: 3px 3px 12px #C0C0C0;
-  box-shadow: 3px 3px 12px #C0C0C0;
+  -webkit-box-shadow: 3px 3px 12px #c0c0c0;
+  -moz-box-shadow: 3px 3px 12px #c0c0c0;
+  box-shadow: 3px 3px 12px #c0c0c0;
   /* background: url('../images/window.gif'); */
   position: absolute;
   border-style: solid;
@@ -166,7 +166,7 @@ tr.mxPopupMenuItem {
 
 tr.mxPopupMenuItemHover {
   background-color: #000066;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -178,7 +178,7 @@ td.mxPopupMenuItem {
 }
 
 td.mxPopupMenuIcon {
-  background-color: #D0D0D0;
+  background-color: #d0d0d0;
   padding: 2px 4px 2px 4px;
 }
 

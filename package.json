@@ -13,7 +13,11 @@
     "type": "git",
     "url": "git@github.com:korbinzhao/mxgraph-editor.git"
   },
-  "keywords": ["mxgraph", "editor", "mxgraph editor"],
+  "keywords": [
+    "mxgraph",
+    "editor",
+    "mxgraph editor"
+  ],
   "author": "korbinzhao",
   "bugs": {
     "url": "https://github.com/korbinzhao/mxgraph-editor/issues"

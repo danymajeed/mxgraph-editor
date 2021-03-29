@@ -1,14 +1,14 @@
-import DEFAULT_CARD_SHAPES from '../config/card-shape';
-import DEFAULT_IMAGE_SHAPES from '../config/image-shape';
+import DEFAULT_CARD_SHAPES from "../config/card-shape";
+import DEFAULT_IMAGE_SHAPES from "../config/image-shape";
 
-import STENCILS from '../config/stencils/index';
-import GENERAL_SHAPES from '../config/general-shape';
-import './basic-shapes-generator';
+import STENCILS from "../config/stencils/index";
+import GENERAL_SHAPES from "../config/general-shape";
+import "./basic-shapes-generator";
 
 export default {
   /**
    * init graph
-   * @param {graph} config 
+   * @param {graph} config
    */
   initGraph(config) {
     const { graph } = config;
@@ -26,29 +26,27 @@ export default {
     // // to fit the size of the graph
     // graph.setResizeContainer(true);
 
-    graph.collapsedImage = '';
-    graph.expandedImage = '';
+    graph.collapsedImage = "";
+    graph.expandedImage = "";
 
     graph.gridSize = 10;
 
     // Enables rubberband selection
-    new mxRubberband (graph); //eslint-disable-line
+    new mxRubberband(graph); //eslint-disable-line
   },
 
   configShapes(config) {
-    const {
-      graph, IMAGE_SHAPES, CARD_SHAPES, SVG_SHAPES 
-    } = config;
+    const { graph, IMAGE_SHAPES, CARD_SHAPES, SVG_SHAPES } = config;
 
     const { stylesheet } = graph;
     const vertexStyle = stylesheet.getDefaultVertexStyle();
-    vertexStyle[mxConstants.STYLE_STROKECOLOR] = '#B9BECC'; //eslint-disable-line
-    vertexStyle[mxConstants.STYLE_FILLCOLOR] = '#ffffff'; //eslint-disable-line
-    vertexStyle[mxConstants.STYLE_FONTCOLOR] = '#333'; //eslint-disable-line
+    vertexStyle[mxConstants.STYLE_STROKECOLOR] = "#B9BECC"; //eslint-disable-line
+    vertexStyle[mxConstants.STYLE_FILLCOLOR] = "#ffffff"; //eslint-disable-line
+    vertexStyle[mxConstants.STYLE_FONTCOLOR] = "#333"; //eslint-disable-line
     const edgeStyle = stylesheet.getDefaultEdgeStyle();
-    edgeStyle[mxConstants.STYLE_STROKECOLOR] = '#B9BECC'; //eslint-disable-line
+    edgeStyle[mxConstants.STYLE_STROKECOLOR] = "#B9BECC"; //eslint-disable-line
     edgeStyle[mxConstants.STYLE_STROKEWIDTH] = 1; //eslint-disable-line
-    edgeStyle[mxConstants.STYLE_FONTCOLOR] = '#333'; //eslint-disable-line
+    edgeStyle[mxConstants.STYLE_FONTCOLOR] = "#333"; //eslint-disable-line
 
     const cardShapes = CARD_SHAPES || DEFAULT_CARD_SHAPES;
     const imageShapes = IMAGE_SHAPES || DEFAULT_IMAGE_SHAPES;
@@ -62,42 +60,44 @@ export default {
     imageStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE; //eslint-disable-line
     imageStyle[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter; //eslint-disable-line
     // style[mxConstants.STYLE_IMAGE] = cardShapes[name];
-    imageStyle[mxConstants.STYLE_FONTCOLOR] = '#333'; //eslint-disable-line
-    graph.getStylesheet().putCellStyle('image', imageStyle);
+    imageStyle[mxConstants.STYLE_FONTCOLOR] = "#333"; //eslint-disable-line
+    graph.getStylesheet().putCellStyle("image", imageStyle);
 
-    cardShapes
-      && cardShapes.forEach((shape) => {
-        const style = mxUtils.clone (imageStyle); //eslint-disable-line
+    cardShapes &&
+      cardShapes.forEach((shape) => {
+        const style = mxUtils.clone(imageStyle); //eslint-disable-line
         style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL; //eslint-disable-line
         style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER; //eslint-disable-line
         style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_ALIGN] = mxConstants.ALIGN_CENTER; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE] = shape.logo; //eslint-disable-line
-        style[mxConstants.STYLE_IMAGE_WIDTH] = '30'; //eslint-disable-line
-        style[mxConstants.STYLE_IMAGE_HEIGHT] = '30'; //eslint-disable-line
-        style[mxConstants.STYLE_SPACING_TOP] = '46'; //eslint-disable-line
-        style[mxConstants.STYLE_SPACING] = '8'; //eslint-disable-line
+        style[mxConstants.STYLE_IMAGE_WIDTH] = "30"; //eslint-disable-line
+        style[mxConstants.STYLE_IMAGE_HEIGHT] = "30"; //eslint-disable-line
+        style[mxConstants.STYLE_SPACING_TOP] = "46"; //eslint-disable-line
+        style[mxConstants.STYLE_SPACING] = "8"; //eslint-disable-line
         style[mxConstants.STYLE_ROUNDED] = 1; //eslint-disable-line
         style[mxConstants.STYLE_ARCSIZE] = 10; //eslint-disable-line
-        style[mxConstants.STYLE_STROKECOLOR] = '#ffffff'; //eslint-disable-line
-        style[mxConstants.STYLE_FILLCOLOR] = '#ffffff'; //eslint-disable-line
+        style[mxConstants.STYLE_STROKECOLOR] = "#ffffff"; //eslint-disable-line
+        style[mxConstants.STYLE_FILLCOLOR] = "#ffffff"; //eslint-disable-line
         graph.getStylesheet().putCellStyle(shape.key, style);
       });
 
-    svgShapes
-      && Object.keys(svgShapes).forEach((name) => {
-        const parser = new DOMParser (); //eslint-disable-line
-        const xmlDoc = parser.parseFromString(svgShapes[name], 'text/xml'); // important to use "text/xml"
+    svgShapes &&
+      Object.keys(svgShapes).forEach((name) => {
+        const parser = new DOMParser(); //eslint-disable-line
+        const xmlDoc = parser.parseFromString(svgShapes[name], "text/xml"); // important to use "text/xml"
         const root = xmlDoc.firstChild;
         let shape = root.firstChild;
 
         while (shape != null) {
-          if (shape.nodeType === mxConstants.NODETYPE_ELEMENT) {  //eslint-disable-line
+          if (shape.nodeType === mxConstants.NODETYPE_ELEMENT) {
             //eslint-disable-line
-            mxStencilRegistry.addStencil(  //eslint-disable-line
-              shape.getAttribute('name'),
-              new mxStencil(shape)  //eslint-disable-line
+            //eslint-disable-line
+            mxStencilRegistry.addStencil(
+              //eslint-disable-line
+              shape.getAttribute("name"),
+              new mxStencil(shape) //eslint-disable-line
             ); //eslint-disable-line
           }
 
@@ -109,26 +109,26 @@ export default {
   initSidebar(config) {
     const { graph, sidebarItems, cellCreatedFunc } = config;
 
-    sidebarItems
-      && sidebarItems.forEach((item) => {
-        const width = item.getAttribute('data-shape-width');
-        const height = item.getAttribute('data-shape-height');
-        const shapeType = item.getAttribute('data-shape-type');
-        const shapeName = item.getAttribute('data-shape-name');
-        const shapeLabel = item.getAttribute('data-shape-label');
-        const shapeContent = item.getAttribute('data-shape-content');
+    sidebarItems &&
+      sidebarItems.forEach((item) => {
+        const width = item.getAttribute("data-shape-width");
+        const height = item.getAttribute("data-shape-height");
+        const shapeType = item.getAttribute("data-shape-type");
+        const shapeName = item.getAttribute("data-shape-name");
+        const shapeLabel = item.getAttribute("data-shape-label");
+        const shapeContent = item.getAttribute("data-shape-content");
         let isEdge = false;
 
         let shapeStyle = shapeName;
 
-        if (shapeType === 'svg') {
+        if (shapeType === "svg") {
           shapeStyle = `shape=${shapeName}`;
-        } else if (shapeType === 'general') {
-          if (GENERAL_SHAPES[shapeName].type === 'edge') {
+        } else if (shapeType === "general") {
+          if (GENERAL_SHAPES[shapeName].type === "edge") {
             isEdge = true;
           }
           shapeStyle = GENERAL_SHAPES[shapeName].style;
-        } else if (shapeType === 'image') {
+        } else if (shapeType === "image") {
           const shape = this.findItemFromArray(this.imageShapes, {
             key: shapeName,
           });
@@ -136,7 +136,7 @@ export default {
           const img = shape.logo;
 
           shapeStyle = `shape=image;html=1;verticalLabelPosition=bottom;fontColor:#fff;verticalAlign=top;imageAspect=0;image=${img}`;
-        } else if (shapeType === 'card') {
+        } else if (shapeType === "card") {
           shapeStyle = `${shapeName}`;
         }
 
@@ -176,11 +176,12 @@ export default {
 
     // Returns the graph under the mouse
     const graphF = (evt) => {
-      const x = mxEvent.getClientX (evt); //eslint-disable-line
-      const y = mxEvent.getClientY (evt); //eslint-disable-line
+      const x = mxEvent.getClientX(evt); //eslint-disable-line
+      const y = mxEvent.getClientY(evt); //eslint-disable-line
       const elt = document.elementFromPoint(x, y);
 
-      if (mxUtils.isAncestorNode(graph.container, elt)) {  //eslint-disable-line
+      if (mxUtils.isAncestorNode(graph.container, elt)) {
+        //eslint-disable-line
         //eslint-disable-line
         return graph;
       }
@@ -193,13 +194,13 @@ export default {
       try {
         // is a edge
         if (isEdge) {
-          const cell = new mxCell(  //eslint-disable-line
-            '',
-            new mxGeometry(0, 0, width, height),  //eslint-disable-line
+          const cell = new mxCell( //eslint-disable-line
+            "",
+            new mxGeometry(0, 0, width, height), //eslint-disable-line
             shapeStyle
           ); //eslint-disable-line
-          cell.geometry.setTerminalPoint (new mxPoint (0, height), true); //eslint-disable-line
-          cell.geometry.setTerminalPoint (new mxPoint (width, 0), false); //eslint-disable-line
+          cell.geometry.setTerminalPoint(new mxPoint(0, height), true); //eslint-disable-line
+          cell.geometry.setTerminalPoint(new mxPoint(width, 0), false); //eslint-disable-line
           // cell.geometry.points = [new mxPoint(width/2, height/2), new mxPoint(0, 0)];
           cell.geometry.relative = true;
           cell.edge = true;
@@ -232,7 +233,7 @@ export default {
 
             cellCreatedFunc && cellCreatedFunc(cell);
           } else {
-            console.log('graph.getDefaultParent() 为 null');
+            console.log("graph.getDefaultParent() 为 null");
           }
         }
       } catch (e) {
@@ -241,17 +242,19 @@ export default {
     };
 
     // Disables built-in DnD in IE (this is needed for cross-frame DnD, see below)
-    if (mxClient.IS_IE) {  //eslint-disable-line
+    if (mxClient.IS_IE) {
       //eslint-disable-line
-      mxEvent.addListener(node, 'dragstart', (evt) => {  //eslint-disable-line
+      //eslint-disable-line
+      mxEvent.addListener(node, "dragstart", (evt) => {
+        //eslint-disable-line
         //eslint-disable-line
         evt.returnValue = false;
       });
     }
 
     // Creates the element that is being for the actual preview.
-    const dragElt = document.createElement('div');
-    dragElt.style.border = 'dashed black 1px';
+    const dragElt = document.createElement("div");
+    dragElt.style.border = "dashed black 1px";
     dragElt.style.width = `${width}px`;
     dragElt.style.height = `${height}px`;
 
@@ -259,7 +262,8 @@ export default {
     // if scalePreview (last) argument is true. Dx and dy are null to force
     // the use of the defaults. Note that dx and dy are only used for the
     // drag icon but not for the preview.
-    const ds = mxUtils.makeDraggable(  //eslint-disable-line
+    const ds = mxUtils.makeDraggable(
+      //eslint-disable-line
       //eslint-disable-line
       node,
       graphF,
@@ -283,19 +287,23 @@ export default {
     const { graph, callback } = config;
 
     // Undo/redo
-    const undoManager = new mxUndoManager (); //eslint-disable-line
+    const undoManager = new mxUndoManager(); //eslint-disable-line
 
     graph.undoManager = undoManager;
 
     const listener = (sender, evt) => {
-      undoManager.undoableEditHappened(evt.getProperty('edit'));
+      undoManager.undoableEditHappened(evt.getProperty("edit"));
     };
-    graph.getModel ().addListener (mxEvent.UNDO, listener); //eslint-disable-line
-    graph.getView ().addListener (mxEvent.UNDO, listener); //eslint-disable-line
+    graph.getModel().addListener(mxEvent.UNDO, listener); //eslint-disable-line
+    graph.getView().addListener(mxEvent.UNDO, listener); //eslint-disable-line
 
-    this.undoListenerFunc2 = this.undoListenerFunc.bind(this, undoManager, callback);
+    this.undoListenerFunc2 = this.undoListenerFunc.bind(
+      this,
+      undoManager,
+      callback
+    );
 
-    document.body.addEventListener('keydown', this.undoListenerFunc2);
+    document.body.addEventListener("keydown", this.undoListenerFunc2);
   },
 
   undoListenerFunc(undoManager, callback, e) {
@@ -311,7 +319,7 @@ export default {
       const { history: histories } = undoManager;
 
       callback && callback(histories);
-      
+
       // undoManager.redo();
     }
   },
@@ -320,7 +328,7 @@ export default {
     const { graph, callback } = config;
 
     this.copyListenerFunc2 = this.copyListenerFunc.bind(this, graph, callback);
-    document.body.addEventListener('keydown', this.copyListenerFunc2);
+    document.body.addEventListener("keydown", this.copyListenerFunc2);
   },
 
   copyListenerFunc(graph, callback, e) {
@@ -331,9 +339,10 @@ export default {
     const evtobj = window.event ? window.event : e;
     // command + c / ctrl + c
     if (evtobj.keyCode === 67 && (evtobj.ctrlKey || evtobj.metaKey)) {
-      mxClipboard.copy (graph); //eslint-disable-line
-    } else if (evtobj.keyCode === 86 && (evtobj.ctrlKey || evtobj.metaKey)) { // command + v / ctrl + v
-      // cells 复制元素的集合   
+      mxClipboard.copy(graph); //eslint-disable-line
+    } else if (evtobj.keyCode === 86 && (evtobj.ctrlKey || evtobj.metaKey)) {
+      // command + v / ctrl + v
+      // cells 复制元素的集合
       const cells = mxClipboard.paste(graph); // eslint-disable-line
 
       callback && callback(cells);
@@ -352,13 +361,11 @@ export default {
 
     this.deleteListenerFunc2 = this.deleteListenerFunc.bind(this, graph);
 
-    document.body.addEventListener('keydown', this.deleteListenerFunc2);
+    document.body.addEventListener("keydown", this.deleteListenerFunc2);
   },
 
   deleteListenerFunc(graph, e) {
-    if (
-      !(e.target === e.currentTarget || graph.container.contains(e.target))
-    ) {
+    if (!(e.target === e.currentTarget || graph.container.contains(e.target))) {
       return false;
     }
 
@@ -372,16 +379,16 @@ export default {
         // cellsSelected && cellsSelected.length && graph.removeCells(cellsSelected);
 
         const cellsSelectable = [];
-        cellsSelected
-          && cellsSelected.forEach((cell) => {
+        cellsSelected &&
+          cellsSelected.forEach((cell) => {
             if (!cell.disabled) {
               cellsSelectable.push(cell);
             }
           });
 
-        cellsSelectable
-          && cellsSelectable.length
-          && graph.removeCells(cellsSelectable);
+        cellsSelectable &&
+          cellsSelectable.length &&
+          graph.removeCells(cellsSelectable);
       }
     }
   },
@@ -398,7 +405,8 @@ export default {
     graph.setPortsEnabled(false);
 
     // Disables floating connections (only connections via ports allowed)
-    graph.connectionHandler.isConnectableCell = function (cell) {  //eslint-disable-line
+    graph.connectionHandler.isConnectableCell = function (cell) {
+      //eslint-disable-line
       //eslint-disable-line
       return false;
     };
@@ -417,15 +425,17 @@ export default {
     //   return selectCells.apply(this, arguments);
     // }
 
-    mxEdgeHandler.prototype.isConnectableCell = function (cell) {  //eslint-disable-line
+    mxEdgeHandler.prototype.isConnectableCell = function (cell) {
+      //eslint-disable-line
       //eslint-disable-line
       return graph.connectionHandler.isConnectableCell(cell);
     };
 
     // Overridden to define per-shape connection points
-    mxGraph.prototype.getAllConnectionConstraints = function (  //eslint-disable-line
+    mxGraph.prototype.getAllConnectionConstraints = function (
+      //eslint-disable-line
       terminal,
-      source  //eslint-disable-line
+      source //eslint-disable-line
     ) {
       //eslint-disable-line
       // if (terminal && terminal.shape && terminal.shape.constraints) {
@@ -444,43 +454,43 @@ export default {
       let points = [];
 
       switch (pointType) {
-        case 'top':
+        case "top":
           points = [
-            new mxConnectionConstraint (new mxPoint (0.5, 0), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.5, 0), true), //eslint-disable-line
           ];
           break;
-        case 'left':
+        case "left":
           points = [
-            new mxConnectionConstraint (new mxPoint (0, 0.5), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0, 0.5), true), //eslint-disable-line
           ];
           break;
-        case 'right':
+        case "right":
           points = [
-            new mxConnectionConstraint (new mxPoint (1, 0.5), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(1, 0.5), true), //eslint-disable-line
           ];
           break;
-        case 'bottom':
+        case "bottom":
           points = [
-            new mxConnectionConstraint (new mxPoint (0.5, 1), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.5, 1), true), //eslint-disable-line
           ];
           break;
-        case 'none':
+        case "none":
           points = [];
           break;
         default:
           points = [
-            new mxConnectionConstraint (new mxPoint (0.25, 0), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0.5, 0), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0.75, 0), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0, 0.25), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0, 0.5), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0, 0.75), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (1, 0.25), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (1, 0.5), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (1, 0.75), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0.25, 1), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0.5, 1), true), //eslint-disable-line
-            new mxConnectionConstraint (new mxPoint (0.75, 1), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.25, 0), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.5, 0), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.75, 0), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0, 0.25), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0, 0.5), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0, 0.75), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(1, 0.25), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(1, 0.5), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(1, 0.75), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.25, 1), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.5, 1), true), //eslint-disable-line
+            new mxConnectionConstraint(new mxPoint(0.75, 1), true), //eslint-disable-line
           ];
           break;
       }
@@ -489,19 +499,20 @@ export default {
     };
 
     // Defines the default constraints for all shapes
-    mxShape.prototype.constraints = [  //eslint-disable-line
+    mxShape.prototype.constraints = [
+      //eslint-disable-line
       //eslint-disable-line
       // new mxConnectionConstraint(new mxPoint(0.25, 0), true),
-      new mxConnectionConstraint (new mxPoint (0.5, 0), true), //eslint-disable-line
+      new mxConnectionConstraint(new mxPoint(0.5, 0), true), //eslint-disable-line
       // new mxConnectionConstraint(new mxPoint(0.75, 0), true),
       // new mxConnectionConstraint(new mxPoint(0, 0.25), true),
-      new mxConnectionConstraint (new mxPoint (0, 0.5), true), //eslint-disable-line
+      new mxConnectionConstraint(new mxPoint(0, 0.5), true), //eslint-disable-line
       // new mxConnectionConstraint(new mxPoint(0, 0.75), true),
       // new mxConnectionConstraint(new mxPoint(1, 0.25), true),
-      new mxConnectionConstraint (new mxPoint (1, 0.5), true), //eslint-disable-line
+      new mxConnectionConstraint(new mxPoint(1, 0.5), true), //eslint-disable-line
       // new mxConnectionConstraint(new mxPoint(1, 0.75), true),
       // new mxConnectionConstraint(new mxPoint(0.25, 1), true),
-      new mxConnectionConstraint (new mxPoint (0.5, 1), true), //eslint-disable-line
+      new mxConnectionConstraint(new mxPoint(0.5, 1), true), //eslint-disable-line
       // new mxConnectionConstraint(new mxPoint(0.75, 1), true)
     ];
 
@@ -512,7 +523,7 @@ export default {
     graph.connectionHandler.createEdgeState = () => {
       const edge = graph.createEdge(null, null, null, null, null);
 
-      return new mxCellState (graph.view, edge, graph.getCellStyle (edge)); //eslint-disable-line
+      return new mxCellState(graph.view, edge, graph.getCellStyle(edge)); //eslint-disable-line
     };
 
     // Changes the default style for edges "in-place" and assigns
@@ -523,20 +534,21 @@ export default {
     const style = graph.getStylesheet().getDefaultEdgeStyle();
     style[mxConstants.STYLE_ROUNDED] = true; //eslint-disable-line
     // style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector; // 备选：orthogonalEdgeStyle
-    style[mxConstants.STYLE_EDGE] = 'orthogonalEdgeStyle'; //eslint-disable-line
+    style[mxConstants.STYLE_EDGE] = "orthogonalEdgeStyle"; //eslint-disable-line
     // style[mxConstants.STYLE_STROKEWIDTH] = 1;
 
     // graph.alternateEdgeStyle = 'elbow=vertical';
 
     // Snaps to fixed points
-    mxConstraintHandler.prototype.intersects = function (  //eslint-disable-line
+    mxConstraintHandler.prototype.intersects = function (
+      //eslint-disable-line
       icon,
       point,
       source,
       existingEdge
     ) {
       //eslint-disable-line
-      return !source || existingEdge || mxUtils.intersects (icon.bounds, point); //eslint-disable-line
+      return !source || existingEdge || mxUtils.intersects(icon.bounds, point); //eslint-disable-line
     };
   },
 
@@ -546,34 +558,35 @@ export default {
 
     // Installs a popupmenu handler using local function (see below).
     graph.popupMenuHandler.factoryMethod = (menu, cell, evt) =>
-      createPopupMenu (graph, menu, cell, evt); //eslint-disable-line
+      createPopupMenu(graph, menu, cell, evt); //eslint-disable-line
 
     // Function to create the entries in the popupmenu
-    function createPopupMenu(graph, menu, cell, evt) {  //eslint-disable-line
+    function createPopupMenu(graph, menu, cell, evt) {
+      //eslint-disable-line
       //eslint-disable-line
       if (cell != null) {
         menu.addItem(
-          'Cell Item',
-          'https://img.alicdn.com/tfs/TB1xSANXXzqK1RjSZFvXXcB7VXa-22-22.png',
+          "Cell Item",
+          "https://img.alicdn.com/tfs/TB1xSANXXzqK1RjSZFvXXcB7VXa-22-22.png",
           () => {
-            mxUtils.alert ('MenuItem1'); //eslint-disable-line
+            mxUtils.alert("MenuItem1"); //eslint-disable-line
           }
         );
       } else {
         menu.addItem(
-          'No-Cell Item',
-          'https://img.alicdn.com/tfs/TB1CFkNXmzqK1RjSZPxXXc4tVXa-22-22.png',
+          "No-Cell Item",
+          "https://img.alicdn.com/tfs/TB1CFkNXmzqK1RjSZPxXXc4tVXa-22-22.png",
           () => {
-            mxUtils.alert ('MenuItem2'); //eslint-disable-line
+            mxUtils.alert("MenuItem2"); //eslint-disable-line
           }
         );
       }
       menu.addSeparator();
       menu.addItem(
-        'MenuItem3',
-        'https://img.alicdn.com/tfs/TB1CFkNXmzqK1RjSZPxXXc4tVXa-22-22.png',
+        "MenuItem3",
+        "https://img.alicdn.com/tfs/TB1CFkNXmzqK1RjSZPxXXc4tVXa-22-22.png",
         () => {
-          mxUtils.alert (`MenuItem3: ${graph.getSelectionCount ()} selected`); //eslint-disable-line
+          mxUtils.alert(`MenuItem3: ${graph.getSelectionCount()} selected`); //eslint-disable-line
         }
       );
     }
@@ -585,65 +598,71 @@ export default {
 
     // Defines a subclass for mxVertexHandler that adds a set of clickable
     // icons to every selected vertex.
-    function mxVertexToolHandler(state) {  //eslint-disable-line
+    function mxVertexToolHandler(state) {
       //eslint-disable-line
-      mxVertexHandler.apply (this, arguments); //eslint-disable-line
+      //eslint-disable-line
+      mxVertexHandler.apply(this, arguments); //eslint-disable-line
     }
 
-    mxVertexToolHandler.prototype = new mxVertexHandler (); //eslint-disable-line
+    mxVertexToolHandler.prototype = new mxVertexHandler(); //eslint-disable-line
     mxVertexToolHandler.prototype.constructor = mxVertexToolHandler;
 
     mxVertexToolHandler.prototype.domNode = null;
 
     mxVertexToolHandler.prototype.init = () => {
-      mxVertexHandler.prototype.init.apply (this, arguments); //eslint-disable-line
+      mxVertexHandler.prototype.init.apply(this, arguments); //eslint-disable-line
 
       // In this example we force the use of DIVs for images in IE. This
       // handles transparency in PNG images properly in IE and fixes the
       // problem that IE routes all mouse events for a gesture via the
       // initial IMG node, which means the target vertices
-      this.domNode = document.createElement('div');
-      this.domNode.style.position = 'absolute';
-      this.domNode.style.whiteSpace = 'nowrap';
+      this.domNode = document.createElement("div");
+      this.domNode.style.position = "absolute";
+      this.domNode.style.whiteSpace = "nowrap";
 
       // Workaround for event redirection via image tag in quirks and IE8
       function createImage(src) {
-        if (mxClient.IS_IE && !mxClient.IS_SVG) {  //eslint-disable-line
+        if (mxClient.IS_IE && !mxClient.IS_SVG) {
           //eslint-disable-line
-          const img = document.createElement('div');
+          //eslint-disable-line
+          const img = document.createElement("div");
           img.style.backgroundImage = `url(${src})`;
-          img.style.backgroundPosition = 'center';
-          img.style.backgroundRepeat = 'no-repeat';
-          img.style.display = mxClient.IS_QUIRKS ? 'inline' : 'inline-block'; //eslint-disable-line
+          img.style.backgroundPosition = "center";
+          img.style.backgroundRepeat = "no-repeat";
+          img.style.display = mxClient.IS_QUIRKS ? "inline" : "inline-block"; //eslint-disable-line
 
           return img;
         }
-        return mxUtils.createImage (src); //eslint-disable-line
+        return mxUtils.createImage(src); //eslint-disable-line
       }
 
       // Delete
       let img = createImage(
-        'https://img.alicdn.com/tfs/TB1Z.ETXbvpK1RjSZPiXXbmwXXa-22-22.png'
+        "https://img.alicdn.com/tfs/TB1Z.ETXbvpK1RjSZPiXXbmwXXa-22-22.png"
       ); //eslint-disable-line
-      img.setAttribute('title', 'Delete');
-      img.style.cursor = 'pointer';
-      img.style.width = '16px';
-      img.style.height = '16px';
-      mxEvent.addGestureListeners(  //eslint-disable-line
+      img.setAttribute("title", "Delete");
+      img.style.cursor = "pointer";
+      img.style.width = "16px";
+      img.style.height = "16px";
+      mxEvent.addGestureListeners(
+        //eslint-disable-line
         img, //eslint-disable-line
-        mxUtils.bind(this, (evt) => {  //eslint-disable-line
+        mxUtils.bind(this, (evt) => {
+          //eslint-disable-line
           //eslint-disable-line
           // Disables dragging the image
-          mxEvent.consume (evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
         })
       );
-      mxEvent.addListener(  //eslint-disable-line
+      mxEvent.addListener(
+        //eslint-disable-line
         img,
-        'click', //eslint-disable-line
-        mxUtils.bind(this, function (evt) {  //eslint-disable-line
+        "click", //eslint-disable-line
+        mxUtils.bind(this, function (evt) {
+          //eslint-disable-line
           //eslint-disable-line
           this.graph.removeCells([this.state.cell]);
-          mxEvent.consume (evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
         })
       );
       this.domNode.appendChild(img);
@@ -666,50 +685,55 @@ export default {
 
       // Move
       img = createImage(
-        'https://img.alicdn.com/tfs/TB1inERXmrqK1RjSZK9XXXyypXa-22-22.png'
+        "https://img.alicdn.com/tfs/TB1inERXmrqK1RjSZK9XXXyypXa-22-22.png"
       ); //eslint-disable-line
-      img.setAttribute('title', 'Move');
-      img.style.cursor = 'move';
-      img.style.width = '16px';
-      img.style.height = '16px';
-      mxEvent.addGestureListeners(  //eslint-disable-line
+      img.setAttribute("title", "Move");
+      img.style.cursor = "move";
+      img.style.width = "16px";
+      img.style.height = "16px";
+      mxEvent.addGestureListeners(
+        //eslint-disable-line
         img, //eslint-disable-line
-        mxUtils.bind(this, function (evt) {  //eslint-disable-line
+        mxUtils.bind(this, function (evt) {
+          //eslint-disable-line
           //eslint-disable-line
           this.graph.graphHandler.start(
             this.state.cell,
-            mxEvent.getClientX(evt),  //eslint-disable-line
-            mxEvent.getClientY(evt)  //eslint-disable-line
+            mxEvent.getClientX(evt), //eslint-disable-line
+            mxEvent.getClientY(evt) //eslint-disable-line
           ); //eslint-disable-line
           this.graph.graphHandler.cellWasClicked = true;
           this.graph.isMouseDown = true;
-          this.graph.isMouseTrigger = mxEvent.isMouseEvent (evt); //eslint-disable-line
-          mxEvent.consume (evt); //eslint-disable-line
+          this.graph.isMouseTrigger = mxEvent.isMouseEvent(evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
         })
       );
       this.domNode.appendChild(img);
 
       // Connect
       img = createImage(
-        'https://img.alicdn.com/tfs/TB1xDQSXgHqK1RjSZFkXXX.WFXa-22-22.png'
+        "https://img.alicdn.com/tfs/TB1xDQSXgHqK1RjSZFkXXX.WFXa-22-22.png"
       ); //eslint-disable-line
-      img.setAttribute('title', 'Connect');
-      img.style.cursor = 'pointer';
-      img.style.width = '16px';
-      img.style.height = '16px';
-      mxEvent.addGestureListeners(  //eslint-disable-line
+      img.setAttribute("title", "Connect");
+      img.style.cursor = "pointer";
+      img.style.width = "16px";
+      img.style.height = "16px";
+      mxEvent.addGestureListeners(
+        //eslint-disable-line
         img, //eslint-disable-line
-        mxUtils.bind(this, function (evt) {  //eslint-disable-line
+        mxUtils.bind(this, function (evt) {
           //eslint-disable-line
-          const pt = mxUtils.convertPoint(  //eslint-disable-line
+          //eslint-disable-line
+          const pt = mxUtils.convertPoint(
+            //eslint-disable-line
             this.graph.container, //eslint-disable-line
-            mxEvent.getClientX(evt),  //eslint-disable-line
-            mxEvent.getClientY(evt)  //eslint-disable-line
+            mxEvent.getClientX(evt), //eslint-disable-line
+            mxEvent.getClientY(evt) //eslint-disable-line
           ); //eslint-disable-line
           this.graph.connectionHandler.start(this.state, pt.x, pt.y);
           this.graph.isMouseDown = true;
-          this.graph.isMouseTrigger = mxEvent.isMouseEvent (evt); //eslint-disable-line
-          mxEvent.consume (evt); //eslint-disable-line
+          this.graph.isMouseTrigger = mxEvent.isMouseEvent(evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
         })
       );
       this.domNode.appendChild(img);
@@ -719,23 +743,25 @@ export default {
     };
 
     mxVertexToolHandler.prototype.redraw = () => {
-      mxVertexHandler.prototype.redraw.apply (this); //eslint-disable-line
+      mxVertexHandler.prototype.redraw.apply(this); //eslint-disable-line
       this.redrawTools();
     };
 
     mxVertexToolHandler.prototype.redrawTools = () => {
       if (this.state != null && this.domNode != null) {
-        const dy = mxClient.IS_VML && document.compatMode === 'CSS1Compat'  //eslint-disable-line
-          ? 20
-          : 4; //eslint-disable-line
+        const dy =
+          mxClient.IS_VML && document.compatMode === "CSS1Compat" //eslint-disable-line
+            ? 20
+            : 4; //eslint-disable-line
         this.domNode.style.left = `${this.state.x + this.state.width - 56}px`;
         this.domNode.style.top = `${this.state.y - dy - 26}px`;
       }
     };
 
-    mxVertexToolHandler.prototype.destroy = function (sender, me) {  //eslint-disable-line
+    mxVertexToolHandler.prototype.destroy = function (sender, me) {
       //eslint-disable-line
-      mxVertexHandler.prototype.destroy.apply (this, arguments); //eslint-disable-line
+      //eslint-disable-line
+      mxVertexHandler.prototype.destroy.apply(this, arguments); //eslint-disable-line
 
       if (this.domNode != null) {
         this.domNode.parentNode.removeChild(this.domNode);
@@ -747,10 +773,10 @@ export default {
 
     graph.createHandler = (state) => {
       if (state != null && this.model.isVertex(state.cell)) {
-        return new mxVertexToolHandler (state); //eslint-disable-line
+        return new mxVertexToolHandler(state); //eslint-disable-line
       }
 
-      return mxGraph.prototype.createHandler.apply (this, arguments); //eslint-disable-line
+      return mxGraph.prototype.createHandler.apply(this, arguments); //eslint-disable-line
     };
   },
 
@@ -759,9 +785,10 @@ export default {
 
     // Installs a handler for double click events in the graph
     // that shows an alert box
-    graph.addListener(mxEvent.DOUBLE_CLICK, (sender, evt) => {  //eslint-disable-line
+    graph.addListener(mxEvent.DOUBLE_CLICK, (sender, evt) => {
       //eslint-disable-line
-      const cell = evt.getProperty('cell');
+      //eslint-disable-line
+      const cell = evt.getProperty("cell");
 
       callback && callback(cell);
 
@@ -772,9 +799,10 @@ export default {
   handleClick(config) {
     const { graph, callback } = config;
 
-    graph.addListener(mxEvent.CLICK, (sender, evt) => {  //eslint-disable-line
+    graph.addListener(mxEvent.CLICK, (sender, evt) => {
       //eslint-disable-line
-      const cell = evt.getProperty('cell');
+      //eslint-disable-line
+      const cell = evt.getProperty("cell");
 
       callback && callback(cell, evt);
 
@@ -805,7 +833,8 @@ export default {
   handleChange(config) {
     const { graph, callback } = config;
 
-    graph.getSelectionModel().addListener(mxEvent.CHANGE, (sender, evt) => {  //eslint-disable-line
+    graph.getSelectionModel().addListener(mxEvent.CHANGE, (sender, evt) => {
+      //eslint-disable-line
       //eslint-disable-line
       // console.log('change', sender, evt);
 
@@ -818,8 +847,8 @@ export default {
 
     // Defines an icon for creating new connections in the connection handler.
     // This will automatically disable the highlighting of the source vertex.
-    mxConnectionHandler.prototype.connectImage = new mxImage(  //eslint-disable-line
-      'images/connector.gif',
+    mxConnectionHandler.prototype.connectImage = new mxImage( //eslint-disable-line
+      "images/connector.gif",
       16,
       16
     ); //eslint-disable-line
@@ -863,33 +892,38 @@ export default {
       // this.images.push(img);
 
       // Delete
-      const img = mxUtils.createImage(  //eslint-disable-line
-        'https://img.alicdn.com/tfs/TB1nt90dgHqK1RjSZFkXXX.WFXa-32-32.png'
+      const img = mxUtils.createImage(
+        //eslint-disable-line
+        "https://img.alicdn.com/tfs/TB1nt90dgHqK1RjSZFkXXX.WFXa-32-32.png"
       ); //eslint-disable-line
-      img.setAttribute('title', 'Delete');
-      img.style.position = 'absolute';
-      img.style.cursor = 'pointer';
-      img.style.width = '16px';
-      img.style.height = '16px';
+      img.setAttribute("title", "Delete");
+      img.style.position = "absolute";
+      img.style.cursor = "pointer";
+      img.style.width = "16px";
+      img.style.height = "16px";
       img.style.left = `${state.x + state.width}px`;
       img.style.top = `${state.y - 16}px`;
 
-      mxEvent.addGestureListeners(  //eslint-disable-line
+      mxEvent.addGestureListeners(
+        //eslint-disable-line
         img, //eslint-disable-line
-        mxUtils.bind(this, (evt) => {  //eslint-disable-line
+        mxUtils.bind(this, (evt) => {
+          //eslint-disable-line
           //eslint-disable-line
           // Disables dragging the image
-          mxEvent.consume (evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
         })
       );
 
-      mxEvent.addListener(  //eslint-disable-line
+      mxEvent.addListener(
+        //eslint-disable-line
         img,
-        'click', //eslint-disable-line
-        mxUtils.bind(this, function (evt) {  //eslint-disable-line
+        "click", //eslint-disable-line
+        mxUtils.bind(this, function (evt) {
+          //eslint-disable-line
           //eslint-disable-line
           graph.removeCells([state.cell]);
-          mxEvent.consume (evt); //eslint-disable-line
+          mxEvent.consume(evt); //eslint-disable-line
           this.destroy();
         })
       );
@@ -927,18 +961,19 @@ export default {
         let tmp;
 
         if (
-          this.currentState != null
-          && (me.getState() === this.currentState || me.getState() == null)
+          this.currentState != null &&
+          (me.getState() === this.currentState || me.getState() == null)
         ) {
           const tol = iconTolerance;
-          tmp = new mxRectangle(  //eslint-disable-line
-            me.getGraphX () - tol, //eslint-disable-line
+          tmp = new mxRectangle( //eslint-disable-line
+            me.getGraphX() - tol, //eslint-disable-line
             me.getGraphY() - tol,
             2 * tol,
             2 * tol
           );
 
-          if (mxUtils.intersects(tmp, this.currentState)) {  //eslint-disable-line
+          if (mxUtils.intersects(tmp, this.currentState)) {
+            //eslint-disable-line
             //eslint-disable-line
             return;
           }
@@ -948,8 +983,8 @@ export default {
 
         // Ignores everything but vertices
         if (
-          graph.isMouseDown
-          || (tmp != null && !graph.getModel().isVertex(tmp.cell))
+          graph.isMouseDown ||
+          (tmp != null && !graph.getModel().isVertex(tmp.cell))
         ) {
           tmp = null;
         }
@@ -966,18 +1001,19 @@ export default {
           }
         }
       },
-      mouseUp (sender, me) {}, //eslint-disable-line
+      mouseUp(sender, me) {}, //eslint-disable-line
       dragEnter(evt, state) {
         const { cell } = state;
         const { disabled } = cell;
 
         if (this.currentIconSet === null && !disabled) {
-          this.currentIconSet = new mxIconSet (state); //eslint-disable-line
+          this.currentIconSet = new mxIconSet(state); //eslint-disable-line
         }
 
         callback && callback(evt, state);
       },
-      dragLeave(evt, state) {  //eslint-disable-line
+      dragLeave(evt, state) {
+        //eslint-disable-line
         //eslint-disable-line
         if (this.currentIconSet != null) {
           this.currentIconSet.destroy();
@@ -994,16 +1030,16 @@ export default {
     graph.setHtmlLabels(true);
 
     // Creates a user object that stores the state
-    const doc = mxUtils.createXmlDocument (); //eslint-disable-line
-    const obj = doc.createElement('UserObject');
-    obj.setAttribute('label', 'Hello, World!');
-    obj.setAttribute('checked', 'false');
+    const doc = mxUtils.createXmlDocument(); //eslint-disable-line
+    const obj = doc.createElement("UserObject");
+    obj.setAttribute("label", "Hello, World!");
+    obj.setAttribute("checked", "false");
   },
 
   initAutoSave(config) {
     const { graph, callback } = config;
 
-    const mgr = new mxAutoSaveManager (graph); //eslint-disable-line
+    const mgr = new mxAutoSaveManager(graph); //eslint-disable-line
     mgr.autoSaveDelay = 0; // 自动保存延迟时间设为0
     mgr.save = () => {
       const xml = this.getGraphXml({
@@ -1016,7 +1052,7 @@ export default {
         return false;
       }
 
-      const xmlStr = new XMLSerializer ().serializeToString (formatedNode); //eslint-disable-line
+      const xmlStr = new XMLSerializer().serializeToString(formatedNode); //eslint-disable-line
 
       graph.xmlStr = xmlStr;
 
@@ -1027,19 +1063,23 @@ export default {
   // check the xmlnode format to avoid error
   formatXmlNode(xmlNode) {
     const rootEle = xmlNode && xmlNode.firstElementChild;
-    
+
     let hasRoot = false;
-    if (rootEle && rootEle.tagName === 'root') {
+    if (rootEle && rootEle.tagName === "root") {
       hasRoot = true;
     }
 
     let hasIdO = false;
-    if (rootEle && rootEle.firstElementChild && rootEle.firstElementChild.id === '0') {
+    if (
+      rootEle &&
+      rootEle.firstElementChild &&
+      rootEle.firstElementChild.id === "0"
+    ) {
       hasIdO = true;
     }
 
     if (!(hasRoot && hasIdO)) {
-      console.warn('xmlNode must have root node');
+      console.warn("xmlNode must have root node");
       return false;
     }
 
@@ -1047,21 +1087,32 @@ export default {
 
     const idsArr = [];
 
-    elements && Array.from(elements).forEach((element) => {
-      const cellId = element && element.getAttribute('id');
+    elements &&
+      Array.from(elements).forEach((element) => {
+        const cellId = element && element.getAttribute("id");
 
-      if (idsArr.indexOf(cellId) === -1) {
-        idsArr.push(cellId);
-      } else {
-        console.warn('cell id is duplicated, delete the needless one', element);
-        rootEle.removeChild(element);
-      }
+        if (idsArr.indexOf(cellId) === -1) {
+          idsArr.push(cellId);
+        } else {
+          console.warn(
+            "cell id is duplicated, delete the needless one",
+            element
+          );
+          rootEle.removeChild(element);
+        }
 
-      if (element && element.getAttribute('vertex') === '1' && element.getAttribute('edge') === '1') {
-        console.warn('cell\'s property vertex and edge cannot both be 1, set property edge to 0', element);
-        element.setAttribute('edge', 0);
-      }
-    });
+        if (
+          element &&
+          element.getAttribute("vertex") === "1" &&
+          element.getAttribute("edge") === "1"
+        ) {
+          console.warn(
+            "cell's property vertex and edge cannot both be 1, set property edge to 0",
+            element
+          );
+          element.setAttribute("edge", 0);
+        }
+      });
 
     return xmlNode;
   },
@@ -1077,11 +1128,12 @@ export default {
     let node = null;
 
     if (ignoreSelection) {
-      const enc = new mxCodec (mxUtils.createXmlDocument ()); //eslint-disable-line
+      const enc = new mxCodec(mxUtils.createXmlDocument()); //eslint-disable-line
       node = enc.encode(graph.getModel());
     } else {
       node = graph.encodeCells(
-        mxUtils.sortCells(  //eslint-disable-line
+        mxUtils.sortCells(
+          //eslint-disable-line
           graph.model.getTopmostCells(
             //eslint-disable-line
             graph.getSelectionCells()
@@ -1091,30 +1143,27 @@ export default {
     }
 
     if (graph.view.translate.x !== 0 || graph.view.translate.y !== 0) {
-      node.setAttribute('dx', Math.round(graph.view.translate.x * 100) / 100);
-      node.setAttribute('dy', Math.round(graph.view.translate.y * 100) / 100);
+      node.setAttribute("dx", Math.round(graph.view.translate.x * 100) / 100);
+      node.setAttribute("dy", Math.round(graph.view.translate.y * 100) / 100);
     }
 
-    node.setAttribute('grid', graph.isGridEnabled() ? '1' : '0');
-    node.setAttribute('gridSize', graph.gridSize);
-    node.setAttribute('guides', graph.graphHandler.guidesEnabled ? '1' : '0');
+    node.setAttribute("grid", graph.isGridEnabled() ? "1" : "0");
+    node.setAttribute("gridSize", graph.gridSize);
+    node.setAttribute("guides", graph.graphHandler.guidesEnabled ? "1" : "0");
+    node.setAttribute("tooltips", graph.tooltipHandler.isEnabled() ? "1" : "0");
     node.setAttribute(
-      'tooltips',
-      graph.tooltipHandler.isEnabled() ? '1' : '0'
+      "connect",
+      graph.connectionHandler.isEnabled() ? "1" : "0"
     );
-    node.setAttribute(
-      'connect',
-      graph.connectionHandler.isEnabled() ? '1' : '0'
-    );
-    node.setAttribute('arrows', graph.connectionArrowsEnabled ? '1' : '0');
-    node.setAttribute('fold', graph.foldingEnabled ? '1' : '0');
-    node.setAttribute('page', graph.pageVisible ? '1' : '0');
-    node.setAttribute('pageScale', graph.pageScale);
-    node.setAttribute('pageWidth', graph.pageFormat.width);
-    node.setAttribute('pageHeight', graph.pageFormat.height);
+    node.setAttribute("arrows", graph.connectionArrowsEnabled ? "1" : "0");
+    node.setAttribute("fold", graph.foldingEnabled ? "1" : "0");
+    node.setAttribute("page", graph.pageVisible ? "1" : "0");
+    node.setAttribute("pageScale", graph.pageScale);
+    node.setAttribute("pageWidth", graph.pageFormat.width);
+    node.setAttribute("pageHeight", graph.pageFormat.height);
 
     if (graph.background != null) {
-      node.setAttribute('background', graph.background);
+      node.setAttribute("background", graph.background);
     }
 
     return node;
@@ -1125,13 +1174,13 @@ export default {
     const { graph, xml } = config;
 
     // const xml = window.localStorage.getItem('graph-xml');
-    const xmlDocument = mxUtils.parseXml (xml); //eslint-disable-line
+    const xmlDocument = mxUtils.parseXml(xml); //eslint-disable-line
 
     if (
-      xmlDocument.documentElement != null
-      && xmlDocument.documentElement.nodeName === 'mxGraphModel'
+      xmlDocument.documentElement != null &&
+      xmlDocument.documentElement.nodeName === "mxGraphModel"
     ) {
-      const decoder = new mxCodec (xmlDocument); //eslint-disable-line
+      const decoder = new mxCodec(xmlDocument); //eslint-disable-line
       const node = xmlDocument.documentElement;
 
       const formatedNode = this.formatXmlNode(node);
@@ -1148,7 +1197,7 @@ export default {
   initCustomPort(config) {
     const { pic } = config;
     // Replaces the port image
-    mxConstraintHandler.prototype.pointImage = new mxImage (pic, 10, 10); //eslint-disable-line
+    mxConstraintHandler.prototype.pointImage = new mxImage(pic, 10, 10); //eslint-disable-line
   },
 
   /**
@@ -1165,13 +1214,13 @@ export default {
     const { graph, type } = config;
 
     switch (type) {
-      case 'in':
+      case "in":
         graph.zoomIn();
         break;
-      case 'out':
+      case "out":
         graph.zoomOut();
         break;
-      case 'actual':
+      case "actual":
         graph.zoomActual();
         break;
       default:
@@ -1190,7 +1239,7 @@ export default {
 
     let newStyle = model.getStyle(cell);
 
-    newStyle = mxUtils.setStyle (newStyle, key, value); //eslint-disable-line
+    newStyle = mxUtils.setStyle(newStyle, key, value); //eslint-disable-line
 
     model.setStyle(cell, newStyle);
 
@@ -1204,14 +1253,16 @@ export default {
     mxCell.prototype.valueChangedCallback = callback; //eslint-disable-line
 
     // 若没重写过 valueChanged 方法则重写
-    if (!mxCell.prototype.hasRewriteValueChanged) {  //eslint-disable-line
+    if (!mxCell.prototype.hasRewriteValueChanged) {
+      //eslint-disable-line
       //eslint-disable-line
       mxCell.prototype.hasRewriteValueChanged = true; //eslint-disable-line
 
-      const {valueChanged} = mxCell.prototype; //eslint-disable-line
-      mxCell.prototype.valueChanged = function (newValue) {  //eslint-disable-line
+      const { valueChanged } = mxCell.prototype; //eslint-disable-line
+      mxCell.prototype.valueChanged = function (newValue) {
         //eslint-disable-line
-        const {valueChangedCallback} = mxCell.prototype; //eslint-disable-line
+        //eslint-disable-line
+        const { valueChangedCallback } = mxCell.prototype; //eslint-disable-line
 
         valueChangedCallback && valueChangedCallback(this, newValue);
         valueChanged.apply(this, [newValue]);
@@ -1234,9 +1285,9 @@ export default {
    * remove event listeners
    */
   removeEventListeners() {
-    document.body.removeEventListener('keydown', this.undoListenerFunc2);
-    document.body.removeEventListener('keydown', this.copyListenerFunc2);
-    document.body.removeEventListener('keydown', this.deleteListenerFunc2);
+    document.body.removeEventListener("keydown", this.undoListenerFunc2);
+    document.body.removeEventListener("keydown", this.copyListenerFunc2);
+    document.body.removeEventListener("keydown", this.deleteListenerFunc2);
   },
 
   startPanning(graph) {
@@ -1244,13 +1295,13 @@ export default {
     // Enables panning with left mouse button
     graph.panningHandler.useLeftButtonForPanning = true;
     graph.panningHandler.ignoreCell = true;
-    graph.container.style.cursor = 'move';
+    graph.container.style.cursor = "move";
   },
 
   stopPanning(graph) {
     graph.panningHandler.useLeftButtonForPanning = false;
     graph.panningHandler.ignoreCell = false;
-    graph.container.style.cursor = 'auto';
+    graph.container.style.cursor = "auto";
   },
 
   findItemFromArray(arr, query) {
@@ -1259,13 +1310,13 @@ export default {
 
     let result;
 
-    arr && arr.forEach((item) => {
-      if (item && item[key] === value) {
-        result = item;
-      }
-    });
+    arr &&
+      arr.forEach((item) => {
+        if (item && item[key] === value) {
+          result = item;
+        }
+      });
 
     return result;
-  }
-
+  },
 };

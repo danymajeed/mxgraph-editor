@@ -7,13 +7,13 @@
  *
  * Extends <mxShape> to implement an image shape. This shape is registered
  * under <mxConstants.SHAPE_IMAGE> in <mxCellRenderer>.
- * 
+ *
  * Constructor: mxImageShape
- * 
+ *
  * Constructs a new image shape.
- * 
+ *
  * Parameters:
- * 
+ *
  * bounds - <mxRectangle> that defines the bounds. This is stored in
  * <mxShape.bounds>.
  * image - String that specifies the URL of the image. This is stored in
@@ -22,7 +22,7 @@
  * stroke - String that defines the stroke color. This is stored in <stroke>.
  * strokewidth - Optional integer that defines the stroke width. Default is
  * 0. This is stored in <strokewidth>.
- * 
+ *
  * 可用样式属性：
  * shape=image;
  * html=1;
@@ -30,10 +30,10 @@
  * fontColor:#fff;
  * verticalAlign=top;
  * imageAspect=0;
- * imageBorder=red; 
+ * imageBorder=red;
  * image=https://img.alicdn.com/tfs/TB1YdFhohYaK1RjSZFnXXa80pXa-59-47.svg;strokeColor=red;
- * 
- * 
+ *
+ *
  */
 function mxImageShape(bounds, image, fill, stroke, strokewidth) {
   mxShape.call(this);
@@ -41,7 +41,7 @@ function mxImageShape(bounds, image, fill, stroke, strokewidth) {
   this.image = image;
   this.fill = fill;
   this.stroke = stroke;
-  this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+  this.strokewidth = strokewidth != null ? strokewidth : 1;
   this.shadow = false;
 }
 
@@ -59,7 +59,7 @@ mxImageShape.prototype.preserveImageAspect = true;
 
 /**
  * Function: getSvgScreenOffset
- * 
+ *
  * Disables offset in IE9 for crisper image output.
  */
 mxImageShape.prototype.getSvgScreenOffset = function () {
@@ -68,14 +68,14 @@ mxImageShape.prototype.getSvgScreenOffset = function () {
 
 /**
  * Function: apply
- * 
+ *
  * Overrides <mxShape.apply> to replace the fill and stroke colors with the
  * respective values from <mxConstants.STYLE_IMAGE_BACKGROUND> and
  * <mxConstants.STYLE_IMAGE_BORDER>.
- * 
+ *
  * Applies the style of the given <mxCellState> to the shape. This
  * implementation assigns the following styles to local fields:
- * 
+ *
  * - <mxConstants.STYLE_IMAGE_BACKGROUND> => fill
  * - <mxConstants.STYLE_IMAGE_BORDER> => stroke
  *
@@ -85,23 +85,26 @@ mxImageShape.prototype.getSvgScreenOffset = function () {
  */
 mxImageShape.prototype.apply = function (state) {
   mxShape.prototype.apply.apply(this, arguments);
-	
+
   this.fill = null;
   this.stroke = null;
   this.gradient = null;
-	
+
   if (this.style != null) {
-    this.preserveImageAspect = mxUtils.getNumber(this.style, mxConstants.STYLE_IMAGE_ASPECT, 1) == 1;
-		
+    this.preserveImageAspect =
+      mxUtils.getNumber(this.style, mxConstants.STYLE_IMAGE_ASPECT, 1) == 1;
+
     // Legacy support for imageFlipH/V
-    this.flipH = this.flipH || mxUtils.getValue(this.style, 'imageFlipH', 0) == 1;
-    this.flipV = this.flipV || mxUtils.getValue(this.style, 'imageFlipV', 0) == 1;
+    this.flipH =
+      this.flipH || mxUtils.getValue(this.style, "imageFlipH", 0) == 1;
+    this.flipV =
+      this.flipV || mxUtils.getValue(this.style, "imageFlipV", 0) == 1;
   }
 };
 
 /**
  * Function: isHtmlAllowed
- * 
+ *
  * Returns true if HTML is allowed for this shape. This implementation always
  * returns false.
  */
@@ -117,15 +120,15 @@ mxImageShape.prototype.isHtmlAllowed = function () {
  * so that the HTML creation is optional.
  */
 mxImageShape.prototype.createHtml = function () {
-  const node = document.createElement('div');
-  node.style.position = 'absolute';
+  const node = document.createElement("div");
+  node.style.position = "absolute";
 
   return node;
 };
 
 /**
  * Function: isRoundable
- * 
+ *
  * Disables inherited roundable support.
  */
 mxImageShape.prototype.isRoundable = function (c, x, y, w, h) {
@@ -134,14 +137,22 @@ mxImageShape.prototype.isRoundable = function (c, x, y, w, h) {
 
 /**
  * Function: paintVertexShape
- * 
+ *
  * Generic background painting implementation.
  */
 mxImageShape.prototype.paintVertexShape = function (c, x, y, w, h) {
   if (this.image != null) {
-    const fill = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_BACKGROUND, null);
-    var stroke = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_BORDER, null);
-    
+    const fill = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_BACKGROUND,
+      null
+    );
+    var stroke = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_BORDER,
+      null
+    );
+
     if (fill != null) {
       // Stroke rendering required for shadow
       c.setFillColor(fill);
@@ -152,9 +163,13 @@ mxImageShape.prototype.paintVertexShape = function (c, x, y, w, h) {
 
     // FlipH/V are implicit via mxShape.updateTransform
     c.image(x, y, w, h, this.image, this.preserveImageAspect, false, false);
-		
-    var stroke = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_BORDER, null);
-		
+
+    var stroke = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_BORDER,
+      null
+    );
+
     if (stroke != null) {
       c.setShadow(false);
       c.setStrokeColor(stroke);
@@ -168,7 +183,7 @@ mxImageShape.prototype.paintVertexShape = function (c, x, y, w, h) {
 
 /**
  * Function: redraw
- * 
+ *
  * Overrides <mxShape.redraw> to preserve the aspect ratio of images.
  */
 mxImageShape.prototype.redrawHtmlShape = function () {
@@ -176,50 +191,68 @@ mxImageShape.prototype.redrawHtmlShape = function () {
   this.node.style.top = `${Math.round(this.bounds.y)}px`;
   this.node.style.width = `${Math.max(0, Math.round(this.bounds.width))}px`;
   this.node.style.height = `${Math.max(0, Math.round(this.bounds.height))}px`;
-  this.node.innerHTML = '';
+  this.node.innerHTML = "";
 
   if (this.image != null) {
-    const fill = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_BACKGROUND, '');
-    const stroke = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_BORDER, '');
+    const fill = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_BACKGROUND,
+      ""
+    );
+    const stroke = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_BORDER,
+      ""
+    );
     this.node.style.backgroundColor = fill;
     this.node.style.borderColor = stroke;
-		
+
     // VML image supports PNG in IE6
-    const useVml = mxClient.IS_IE6 || ((document.documentMode == null || document.documentMode <= 8) && this.rotation != 0);
-    const img = document.createElement((useVml) ? `${mxClient.VML_PREFIX}:image` : 'img');
-    img.setAttribute('border', '0');
-    img.style.position = 'absolute';
+    const useVml =
+      mxClient.IS_IE6 ||
+      ((document.documentMode == null || document.documentMode <= 8) &&
+        this.rotation != 0);
+    const img = document.createElement(
+      useVml ? `${mxClient.VML_PREFIX}:image` : "img"
+    );
+    img.setAttribute("border", "0");
+    img.style.position = "absolute";
     img.src = this.image;
 
-    let filter = (this.opacity < 100) ? `alpha(opacity=${this.opacity})` : '';
+    let filter = this.opacity < 100 ? `alpha(opacity=${this.opacity})` : "";
     this.node.style.filter = filter;
-		
+
     if (this.flipH && this.flipV) {
-      filter += 'progid:DXImageTransform.Microsoft.BasicImage(rotation=2)';
+      filter += "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
     } else if (this.flipH) {
-      filter += 'progid:DXImageTransform.Microsoft.BasicImage(mirror=1)';
+      filter += "progid:DXImageTransform.Microsoft.BasicImage(mirror=1)";
     } else if (this.flipV) {
-      filter += 'progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)';
+      filter +=
+        "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
     }
 
     if (img.style.filter != filter) {
       img.style.filter = filter;
     }
 
-    if (img.nodeName == 'image') {
+    if (img.nodeName == "image") {
       img.style.rotation = this.rotation;
     } else if (this.rotation != 0) {
       // LATER: Add flipV/H support
-      mxUtils.setPrefixedStyle(img.style, 'transform', `rotate(${this.rotation}deg)`);
+      mxUtils.setPrefixedStyle(
+        img.style,
+        "transform",
+        `rotate(${this.rotation}deg)`
+      );
     } else {
-      mxUtils.setPrefixedStyle(img.style, 'transform', '');
+      mxUtils.setPrefixedStyle(img.style, "transform", "");
     }
 
     // Known problem: IE clips top line of image for certain angles
     img.style.width = this.node.style.width;
     img.style.height = this.node.style.height;
-		
-    this.node.style.backgroundImage = '';
+
+    this.node.style.backgroundImage = "";
     this.node.appendChild(img);
   } else {
     this.setTransparentBackgroundImage(this.node);

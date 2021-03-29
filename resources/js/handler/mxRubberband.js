@@ -4,19 +4,19 @@
  */
 /**
  * Class: mxRubberband
- * 
+ *
  * 拖拽圈选功能
  * Event handler that selects rectangular regions. This is not built-into
  * <mxGraph>. To enable rubberband selection in a graph, use the following code.
- * 
+ *
  * Example:
- * 
+ *
  * (code)
  * var rubberband = new mxRubberband(graph);
  * (end)
- * 
+ *
  * Constructor: mxRubberband
- * 
+ *
  * Constructs an event handler that selects rectangular regions in the graph
  * using rubberband selection.
  */
@@ -27,8 +27,8 @@ function mxRubberband(graph) {
 
     // Handles force rubberband event
     this.forceRubberbandHandler = mxUtils.bind(this, function (sender, evt) {
-      const evtName = evt.getProperty('eventName');
-      const me = evt.getProperty('event');
+      const evtName = evt.getProperty("eventName");
+      const me = evt.getProperty("event");
 
       if (evtName == mxEvent.MOUSE_DOWN && this.isForceRubberbandEvent(me)) {
         const offset = mxUtils.getOffset(this.graph.container);
@@ -39,38 +39,44 @@ function mxRubberband(graph) {
         me.consume(false);
       }
     });
-		
-    this.graph.addListener(mxEvent.FIRE_MOUSE_EVENT, this.forceRubberbandHandler);
-		
+
+    this.graph.addListener(
+      mxEvent.FIRE_MOUSE_EVENT,
+      this.forceRubberbandHandler
+    );
+
     // Repaints the marquee after autoscroll
     this.panHandler = mxUtils.bind(this, function () {
       this.repaint();
     });
-		
+
     this.graph.addListener(mxEvent.PAN, this.panHandler);
-		
+
     // Does not show menu if any touch gestures take place after the trigger
     this.gestureHandler = mxUtils.bind(this, function (sender, eo) {
       if (this.first != null) {
         this.reset();
       }
     });
-		
+
     this.graph.addListener(mxEvent.GESTURE, this.gestureHandler);
-		
+
     // Automatic deallocation of memory
     if (mxClient.IS_IE) {
-      mxEvent.addListener(window, 'unload',
+      mxEvent.addListener(
+        window,
+        "unload",
         mxUtils.bind(this, function () {
           this.destroy();
-        }));
+        })
+      );
     }
   }
 }
 
 /**
  * Variable: defaultOpacity
- * 
+ *
  * Specifies the default opacity to be used for the rubberband div. Default
  * is 20.
  */
@@ -78,59 +84,59 @@ mxRubberband.prototype.defaultOpacity = 20;
 
 /**
  * Variable: enabled
- * 
+ *
  * Specifies if events are handled. Default is true.
  */
 mxRubberband.prototype.enabled = true;
 
 /**
  * Variable: div
- * 
+ *
  * Holds the DIV element which is currently visible.
  */
 mxRubberband.prototype.div = null;
 
 /**
  * Variable: sharedDiv
- * 
+ *
  * Holds the DIV element which is used to display the rubberband.
  */
 mxRubberband.prototype.sharedDiv = null;
 
 /**
  * Variable: currentX
- * 
+ *
  * Holds the value of the x argument in the last call to <update>.
  */
 mxRubberband.prototype.currentX = 0;
 
 /**
  * Variable: currentY
- * 
+ *
  * Holds the value of the y argument in the last call to <update>.
  */
 mxRubberband.prototype.currentY = 0;
 
 /**
  * Variable: fadeOut
- * 
+ *
  * Optional fade out effect. Default is false.
  */
 mxRubberband.prototype.fadeOut = false;
 
 /**
  * Function: isEnabled
- * 
+ *
  * Returns true if events are handled. This implementation returns
  * <enabled>.
  */
 mxRubberband.prototype.isEnabled = function () {
   return this.enabled;
 };
-		
+
 /**
  * Function: setEnabled
- * 
+ *
  * Enables or disables event handling. This implementation updates
  * <enabled>.
  */
@@ -140,7 +146,7 @@ mxRubberband.prototype.setEnabled = function (enabled) {
 
 /**
  * Function: isForceRubberbandEvent
- * 
+ *
  * Returns true if the given <mxMouseEvent> should start rubberband selection.
  * This implementation returns true if the alt key is pressed.
  */
@@ -150,14 +156,19 @@ mxRubberband.prototype.isForceRubberbandEvent = function (me) {
 
 /**
  * Function: mouseDown
- * 
+ *
  * Handles the event by initiating a rubberband selection. By consuming the
  * event all subsequent events of the gesture are redirected to this
  * handler.
  */
 mxRubberband.prototype.mouseDown = function (sender, me) {
-  if (!me.isConsumed() && this.isEnabled() && this.graph.isEnabled()
-		&& me.getState() == null && !mxEvent.isMultiTouchEvent(me.getEvent())) {
+  if (
+    !me.isConsumed() &&
+    this.isEnabled() &&
+    this.graph.isEnabled() &&
+    me.getState() == null &&
+    !mxEvent.isMultiTouchEvent(me.getEvent())
+  ) {
     const offset = mxUtils.getOffset(this.graph.container);
     const origin = mxUtils.getScrollOrigin(this.graph.container);
     origin.x -= offset.x;
@@ -175,21 +186,21 @@ mxRubberband.prototype.mouseDown = function (sender, me) {
 
 /**
  * Function: start
- * 
+ *
  * Sets the start point for the rubberband selection.
  */
 mxRubberband.prototype.start = function (x, y) {
   this.first = new mxPoint(x, y);
 
   const container = this.graph.container;
-	
+
   function createMouseEvent(evt) {
     const me = new mxMouseEvent(evt);
     const pt = mxUtils.convertPoint(container, me.getX(), me.getY());
-		
+
     me.graphX = pt.x;
     me.graphY = pt.y;
-		
+
     return me;
   }
 
@@ -203,13 +214,18 @@ mxRubberband.prototype.start = function (x, y) {
 
   // Workaround for rubberband stopping if the mouse leaves the container in Firefox
   if (mxClient.IS_FF) {
-    mxEvent.addGestureListeners(document, null, this.dragHandler, this.dropHandler);
+    mxEvent.addGestureListeners(
+      document,
+      null,
+      this.dragHandler,
+      this.dropHandler
+    );
   }
 };
 
 /**
  * Function: mouseMove
- * 
+ *
  * Handles the event by updating therubberband selection.
  */
 mxRubberband.prototype.mouseMove = function (sender, me) {
@@ -223,16 +239,16 @@ mxRubberband.prototype.mouseMove = function (sender, me) {
     const dx = this.first.x - x;
     const dy = this.first.y - y;
     const tol = this.graph.tolerance;
-		
+
     if (this.div != null || Math.abs(dx) > tol || Math.abs(dy) > tol) {
       if (this.div == null) {
         this.div = this.createShape();
       }
-			
+
       // Clears selection while rubberbanding. This is required because
       // the event is not consumed in mouseDown.
       mxUtils.clearSelection();
-			
+
       this.update(x, y);
       me.consume();
     }
@@ -241,45 +257,49 @@ mxRubberband.prototype.mouseMove = function (sender, me) {
 
 /**
  * Function: createShape
- * 
+ *
  * Creates the rubberband selection shape.
  */
 mxRubberband.prototype.createShape = function () {
   if (this.sharedDiv == null) {
-    this.sharedDiv = document.createElement('div');
-    this.sharedDiv.className = 'mxRubberband';
+    this.sharedDiv = document.createElement("div");
+    this.sharedDiv.className = "mxRubberband";
     mxUtils.setOpacity(this.sharedDiv, this.defaultOpacity);
   }
 
   this.graph.container.appendChild(this.sharedDiv);
   const result = this.sharedDiv;
-	
-  if (mxClient.IS_SVG && (!mxClient.IS_IE || document.documentMode >= 10) && this.fadeOut) {
+
+  if (
+    mxClient.IS_SVG &&
+    (!mxClient.IS_IE || document.documentMode >= 10) &&
+    this.fadeOut
+  ) {
     this.sharedDiv = null;
   }
-		
+
   return result;
 };
 
 /**
  * Function: isActive
- * 
+ *
  * Returns true if this handler is active.
  */
 mxRubberband.prototype.isActive = function (sender, me) {
-  return this.div != null && this.div.style.display != 'none';
+  return this.div != null && this.div.style.display != "none";
 };
 
 /**
  * Function: mouseUp
- * 
+ *
  * Handles the event by selecting the region of the rubberband using
  * <mxGraph.selectRegion>.
  */
 mxRubberband.prototype.mouseUp = function (sender, me) {
   const active = this.isActive();
   this.reset();
-	
+
   if (active) {
     this.execute(me.getEvent());
     me.consume();
@@ -288,7 +308,7 @@ mxRubberband.prototype.mouseUp = function (sender, me) {
 
 /**
  * Function: execute
- * 
+ *
  * Resets the state of this handler and selects the current region
  * for the given event.
  */
@@ -299,29 +319,38 @@ mxRubberband.prototype.execute = function (evt) {
 
 /**
  * Function: reset
- * 
+ *
  * Resets the state of the rubberband selection.
  */
 mxRubberband.prototype.reset = function () {
   if (this.div != null) {
-    if (mxClient.IS_SVG && (!mxClient.IS_IE || document.documentMode >= 10) && this.fadeOut) {
+    if (
+      mxClient.IS_SVG &&
+      (!mxClient.IS_IE || document.documentMode >= 10) &&
+      this.fadeOut
+    ) {
       const temp = this.div;
-      mxUtils.setPrefixedStyle(temp.style, 'transition', 'all 0.2s linear');
-      temp.style.pointerEvents = 'none';
+      mxUtils.setPrefixedStyle(temp.style, "transition", "all 0.2s linear");
+      temp.style.pointerEvents = "none";
       temp.style.opacity = 0;
-		    
-		    window.setTimeout(() => {
-		    		temp.parentNode.removeChild(temp);
-		    	}, 200);	
+
+      window.setTimeout(() => {
+        temp.parentNode.removeChild(temp);
+      }, 200);
     } else {
       this.div.parentNode.removeChild(this.div);
     }
   }
 
-  mxEvent.removeGestureListeners(document, null, this.dragHandler, this.dropHandler);
+  mxEvent.removeGestureListeners(
+    document,
+    null,
+    this.dragHandler,
+    this.dropHandler
+  );
   this.dragHandler = null;
   this.dropHandler = null;
-	
+
   this.currentX = 0;
   this.currentY = 0;
   this.first = null;
@@ -330,34 +359,34 @@ mxRubberband.prototype.reset = function () {
 
 /**
  * Function: update
- * 
+ *
  * Sets <currentX> and <currentY> and calls <repaint>.
  */
 mxRubberband.prototype.update = function (x, y) {
   this.currentX = x;
   this.currentY = y;
-	
+
   this.repaint();
 };
 
 /**
  * Function: repaint
- * 
+ *
  * Computes the bounding box and updates the style of the <div>.
  */
 mxRubberband.prototype.repaint = function () {
   if (this.div != null) {
     const x = this.currentX - this.graph.panDx;
     const y = this.currentY - this.graph.panDy;
-		
+
     this.x = Math.min(this.first.x, x);
     this.y = Math.min(this.first.y, y);
     this.width = Math.max(this.first.x, x) - this.x;
     this.height = Math.max(this.first.y, y) - this.y;
 
-    const dx = (mxClient.IS_VML) ? this.graph.panDx : 0;
-    const dy = (mxClient.IS_VML) ? this.graph.panDy : 0;
-		
+    const dx = mxClient.IS_VML ? this.graph.panDx : 0;
+    const dy = mxClient.IS_VML ? this.graph.panDy : 0;
+
     this.div.style.left = `${this.x + dx}px`;
     this.div.style.top = `${this.y + dy}px`;
     this.div.style.width = `${Math.max(1, this.width)}px`;
@@ -367,7 +396,7 @@ mxRubberband.prototype.repaint = function () {
 
 /**
  * Function: destroy
- * 
+ *
  * Destroys the handler and all its resources and DOM nodes. This does
  * normally not need to be called, it is called automatically when the
  * window unloads.
@@ -379,7 +408,7 @@ mxRubberband.prototype.destroy = function () {
     this.graph.removeListener(this.forceRubberbandHandler);
     this.graph.removeListener(this.panHandler);
     this.reset();
-		
+
     if (this.sharedDiv != null) {
       this.sharedDiv = null;
     }

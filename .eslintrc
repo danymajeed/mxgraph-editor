@@ -1,31 +1,33 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "import"
-  ],
+  "plugins": ["react", "jsx-a11y", "import"],
   "rules": {
-    "react/jsx-filename-extension": [2, {
-      "extensions": [".js", ".jsx"]
-    }],
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
     "react/forbid-prop-types": 0,
     "no-unused-expressions": 0,
     "func-names": 0,
     "class-methods-use-this": 0,
     "destructuring": false,
-    "no-param-reassign": [1, { "props": false } ],
+    "no-param-reassign": [1, { "props": false }],
     "linebreak-style": 0,
-    "react/sort-comp": [1, {
-      "order": [
-        "static-methods",
-        "lifecycle",
-        "everything-else",
-        "/^on.+$/",
-        "render"
-      ]
-    }],
+    "react/sort-comp": [
+      1,
+      {
+        "order": [
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "/^on.+$/",
+          "render"
+        ]
+      }
+    ],
     "max-len": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,

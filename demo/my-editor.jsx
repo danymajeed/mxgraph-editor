@@ -1,15 +1,15 @@
-import React from 'react';
-import { message, Layout } from 'antd';
+import React from "react";
+import { message, Layout } from "antd";
 
-import Sidebar from './sidebar';
-import Toolbar from './toolbar';
-import Editor from '../src/editor';
+import Sidebar from "./sidebar";
+import Toolbar from "./toolbar";
+import Editor from "../src/editor";
 
-import IMAGE_SHAPES from './shape-config/image-shape';
-import CARD_SHAPES from './shape-config/card-shape';
-import SVG_SHAPES from './shape-config/svg-shape.xml';
+import IMAGE_SHAPES from "./shape-config/image-shape";
+import CARD_SHAPES from "./shape-config/card-shape";
+import SVG_SHAPES from "./shape-config/svg-shape.xml";
 
-import './my-editor.less';
+import "./my-editor.less";
 
 const { Sider, Content } = Layout;
 
@@ -18,7 +18,7 @@ class MyEditor extends React.Component {
     super(props);
 
     this.state = {
-      editor: null
+      editor: null,
     };
 
     this.graphContainerClickCount = 0;
@@ -28,7 +28,7 @@ class MyEditor extends React.Component {
     this.mounted = true;
 
     const editor = new Editor({
-      container: '.graph-content',
+      container: ".graph-content",
       clickFunc: this.clickFunc,
       doubleClickFunc: this.doubleClickFunc,
       autoSaveFunc: this.autoSaveFunc,
@@ -39,16 +39,18 @@ class MyEditor extends React.Component {
       valueChangeFunc: this.valueChangeFunc,
       IMAGE_SHAPES,
       CARD_SHAPES,
-      SVG_SHAPES
+      SVG_SHAPES,
     });
 
     this.editor = editor;
 
     window.editor = editor;
 
-    editor.initCustomPort('https://gw.alicdn.com/tfs/TB1PqwZzzDpK1RjSZFrXXa78VXa-200-200.png');
+    editor.initCustomPort(
+      "https://gw.alicdn.com/tfs/TB1PqwZzzDpK1RjSZFrXXa78VXa-200-200.png"
+    );
 
-    const xml = window.localStorage.getItem('autosaveXml');
+    const xml = window.localStorage.getItem("autosaveXml");
 
     this.editor.renderGraphFromXml(xml);
 
@@ -62,12 +64,11 @@ class MyEditor extends React.Component {
     this.editor.removeEventListeners();
   }
 
-
   /**
    * double click event callback
    */
   doubleClickFunc = (cell) => {
-    console.log('double click', cell);
+    console.log("double click", cell);
   };
 
   cellCreatedFunc = (currentCell) => {
@@ -76,8 +77,8 @@ class MyEditor extends React.Component {
     let sameShapeNameCount = 0;
     const { shapeName } = currentCell;
 
-    allCells
-      && Object.keys(allCells).forEach((index) => {
+    allCells &&
+      Object.keys(allCells).forEach((index) => {
         if (allCells[index].shapeName === shapeName) {
           sameShapeNameCount += 1;
         }
@@ -89,7 +90,7 @@ class MyEditor extends React.Component {
   };
 
   deleteFunc = (cells) => {
-    console.log('cells deleted: ', cells);
+    console.log("cells deleted: ", cells);
   };
 
   /**
@@ -104,31 +105,31 @@ class MyEditor extends React.Component {
   autoSaveFunc = (xml) => {
     window.autosaveXml = xml;
 
-    const oParser = new DOMParser (); // eslint-disable-line
-    const oDOM = oParser.parseFromString(xml, 'application/xml');
+    const oParser = new DOMParser(); // eslint-disable-line
+    const oDOM = oParser.parseFromString(xml, "application/xml");
 
     window.autoSaveXmlDom = oDOM;
 
-    window.localStorage.setItem('autosaveXml', xml);
+    window.localStorage.setItem("autosaveXml", xml);
   };
 
   clickFunc = (cell) => {
-    console.log('click', cell);
+    console.log("click", cell);
   };
 
   undoFunc = (histories) => {
-    console.log('undo', histories);
-  }
+    console.log("undo", histories);
+  };
 
   copyFunc = (cells) => {
-    console.log('copy', cells);
-  }
+    console.log("copy", cells);
+  };
 
   updateDiagramData = (data) => {
     console.log(`update diagram: ${data}`);
 
-    message.info('diagram save success');
-  }
+    message.info("diagram save success");
+  };
 
   render() {
     const { editor } = this.state;

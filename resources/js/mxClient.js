@@ -5,7 +5,7 @@
  */
 
 // Disables synchronous loading of resources
-window.mxImageBasePath = 'resources/images';
+window.mxImageBasePath = "resources/images";
 window.mxLoadResources = false;
 
 var mxClient = {
@@ -27,7 +27,7 @@ var mxClient = {
    *
    * Current version is 3.9.8.
    */
-  VERSION: '3.9.8',
+  VERSION: "3.9.8",
 
   /**
    * Variable: IS_IE
@@ -35,14 +35,14 @@ var mxClient = {
    * True if the current browser is Internet Explorer 10 or below. Use <mxClient.IS_IE11>
    * to detect IE 11.
    */
-  IS_IE: navigator.userAgent.indexOf('MSIE') >= 0,
+  IS_IE: navigator.userAgent.indexOf("MSIE") >= 0,
 
   /**
    * Variable: IS_IE6
    *
    * True if the current browser is Internet Explorer 6.x.
    */
-  IS_IE6: navigator.userAgent.indexOf('MSIE 6') >= 0,
+  IS_IE6: navigator.userAgent.indexOf("MSIE 6") >= 0,
 
   /**
    * Variable: IS_IE11
@@ -63,45 +63,51 @@ var mxClient = {
    *
    * True if the current browser is Internet Explorer and it is in quirks mode.
    */
-  IS_QUIRKS: navigator.userAgent.indexOf('MSIE') >= 0 && (document.documentMode == null || document.documentMode == 5),
+  IS_QUIRKS:
+    navigator.userAgent.indexOf("MSIE") >= 0 &&
+    (document.documentMode == null || document.documentMode == 5),
 
   /**
    * Variable: IS_EM
    *
    * True if the browser is IE11 in enterprise mode (IE8 standards mode).
    */
-  IS_EM: 'spellcheck' in document.createElement('textarea') && document.documentMode == 8,
+  IS_EM:
+    "spellcheck" in document.createElement("textarea") &&
+    document.documentMode == 8,
 
   /**
    * Variable: VML_PREFIX
    *
    * Prefix for VML namespace in node names. Default is 'v'.
    */
-  VML_PREFIX: 'v',
+  VML_PREFIX: "v",
 
   /**
    * Variable: OFFICE_PREFIX
    *
    * Prefix for VML office namespace in node names. Default is 'o'.
    */
-  OFFICE_PREFIX: 'o',
+  OFFICE_PREFIX: "o",
 
   /**
    * Variable: IS_NS
    *
    * True if the current browser is Netscape (including Firefox).
    */
-  IS_NS: navigator.userAgent.indexOf('Mozilla/') >= 0
-    && navigator.userAgent.indexOf('MSIE') < 0
-    && navigator.userAgent.indexOf('Edge/') < 0,
+  IS_NS:
+    navigator.userAgent.indexOf("Mozilla/") >= 0 &&
+    navigator.userAgent.indexOf("MSIE") < 0 &&
+    navigator.userAgent.indexOf("Edge/") < 0,
 
   /**
    * Variable: IS_OP
    *
    * True if the current browser is Opera.
    */
-  IS_OP: navigator.userAgent.indexOf('Opera/') >= 0
-    || navigator.userAgent.indexOf('OPR/') >= 0,
+  IS_OP:
+    navigator.userAgent.indexOf("Opera/") >= 0 ||
+    navigator.userAgent.indexOf("OPR/") >= 0,
 
   /**
    * Variable: IS_OT
@@ -109,51 +115,55 @@ var mxClient = {
    * True if -o-transform is available as a CSS style, ie for Opera browsers
    * based on a Presto engine with version 2.5 or later.
    */
-  IS_OT: navigator.userAgent.indexOf('Presto/') >= 0
-    && navigator.userAgent.indexOf('Presto/2.4.') < 0
-    && navigator.userAgent.indexOf('Presto/2.3.') < 0
-    && navigator.userAgent.indexOf('Presto/2.2.') < 0
-    && navigator.userAgent.indexOf('Presto/2.1.') < 0
-    && navigator.userAgent.indexOf('Presto/2.0.') < 0
-    && navigator.userAgent.indexOf('Presto/1.') < 0,
+  IS_OT:
+    navigator.userAgent.indexOf("Presto/") >= 0 &&
+    navigator.userAgent.indexOf("Presto/2.4.") < 0 &&
+    navigator.userAgent.indexOf("Presto/2.3.") < 0 &&
+    navigator.userAgent.indexOf("Presto/2.2.") < 0 &&
+    navigator.userAgent.indexOf("Presto/2.1.") < 0 &&
+    navigator.userAgent.indexOf("Presto/2.0.") < 0 &&
+    navigator.userAgent.indexOf("Presto/1.") < 0,
 
   /**
    * Variable: IS_SF
    *
    * True if the current browser is Safari.
    */
-  IS_SF: navigator.userAgent.indexOf('AppleWebKit/') >= 0
-    && navigator.userAgent.indexOf('Chrome/') < 0
-    && navigator.userAgent.indexOf('Edge/') < 0,
+  IS_SF:
+    navigator.userAgent.indexOf("AppleWebKit/") >= 0 &&
+    navigator.userAgent.indexOf("Chrome/") < 0 &&
+    navigator.userAgent.indexOf("Edge/") < 0,
 
   /**
    * Variable: IS_IOS
    *
    * Returns true if the user agent is an iPad, iPhone or iPod.
    */
-  IS_IOS: (!!navigator.userAgent.match(/(iPad|iPhone|iPod)/g)),
+  IS_IOS: !!navigator.userAgent.match(/(iPad|iPhone|iPod)/g),
 
   /**
    * Variable: IS_GC
    *
    * True if the current browser is Google Chrome.
    */
-  IS_GC: navigator.userAgent.indexOf('Chrome/') >= 0
-    && navigator.userAgent.indexOf('Edge/') < 0,
+  IS_GC:
+    navigator.userAgent.indexOf("Chrome/") >= 0 &&
+    navigator.userAgent.indexOf("Edge/") < 0,
 
   /**
    * Variable: IS_CHROMEAPP
    *
    * True if the this is running inside a Chrome App.
    */
-  IS_CHROMEAPP: window.chrome != null && chrome.app != null && chrome.app.runtime != null,
+  IS_CHROMEAPP:
+    window.chrome != null && chrome.app != null && chrome.app.runtime != null,
 
   /**
    * Variable: IS_FF
    *
    * True if the current browser is Firefox.
    */
-  IS_FF: navigator.userAgent.indexOf('Firefox/') >= 0,
+  IS_FF: navigator.userAgent.indexOf("Firefox/") >= 0,
 
   /**
    * Variable: IS_MT
@@ -162,32 +172,34 @@ var mxClient = {
    * for all Firefox-based browsers newer than or equal 3, such as Camino,
    * Iceweasel, Seamonkey and Iceape.
    */
-  IS_MT: (navigator.userAgent.indexOf('Firefox/') >= 0
-      && navigator.userAgent.indexOf('Firefox/1.') < 0
-      && navigator.userAgent.indexOf('Firefox/2.') < 0)
-    || (navigator.userAgent.indexOf('Iceweasel/') >= 0
-      && navigator.userAgent.indexOf('Iceweasel/1.') < 0
-      && navigator.userAgent.indexOf('Iceweasel/2.') < 0)
-    || (navigator.userAgent.indexOf('SeaMonkey/') >= 0
-      && navigator.userAgent.indexOf('SeaMonkey/1.') < 0)
-    || (navigator.userAgent.indexOf('Iceape/') >= 0
-      && navigator.userAgent.indexOf('Iceape/1.') < 0),
+  IS_MT:
+    (navigator.userAgent.indexOf("Firefox/") >= 0 &&
+      navigator.userAgent.indexOf("Firefox/1.") < 0 &&
+      navigator.userAgent.indexOf("Firefox/2.") < 0) ||
+    (navigator.userAgent.indexOf("Iceweasel/") >= 0 &&
+      navigator.userAgent.indexOf("Iceweasel/1.") < 0 &&
+      navigator.userAgent.indexOf("Iceweasel/2.") < 0) ||
+    (navigator.userAgent.indexOf("SeaMonkey/") >= 0 &&
+      navigator.userAgent.indexOf("SeaMonkey/1.") < 0) ||
+    (navigator.userAgent.indexOf("Iceape/") >= 0 &&
+      navigator.userAgent.indexOf("Iceape/1.") < 0),
 
   /**
    * Variable: IS_SVG
    *
    * True if the browser supports SVG.
    */
-  IS_SVG: navigator.userAgent.indexOf('Firefox/') >= 0 // FF and Camino
-    || navigator.userAgent.indexOf('Iceweasel/') >= 0 // Firefox on Debian
-    || navigator.userAgent.indexOf('Seamonkey/') >= 0 // Firefox-based
-    || navigator.userAgent.indexOf('Iceape/') >= 0 // Seamonkey on Debian
-    || navigator.userAgent.indexOf('Galeon/') >= 0 // Gnome Browser (old)
-    || navigator.userAgent.indexOf('Epiphany/') >= 0 // Gnome Browser (new)
-    || navigator.userAgent.indexOf('AppleWebKit/') >= 0 // Safari/Google Chrome
-    || navigator.userAgent.indexOf('Gecko/') >= 0 // Netscape/Gecko
-    || navigator.userAgent.indexOf('Opera/') >= 0 // Opera
-    || (document.documentMode != null && document.documentMode >= 9), // IE9+
+  IS_SVG:
+    navigator.userAgent.indexOf("Firefox/") >= 0 || // FF and Camino
+    navigator.userAgent.indexOf("Iceweasel/") >= 0 || // Firefox on Debian
+    navigator.userAgent.indexOf("Seamonkey/") >= 0 || // Firefox-based
+    navigator.userAgent.indexOf("Iceape/") >= 0 || // Seamonkey on Debian
+    navigator.userAgent.indexOf("Galeon/") >= 0 || // Gnome Browser (old)
+    navigator.userAgent.indexOf("Epiphany/") >= 0 || // Gnome Browser (new)
+    navigator.userAgent.indexOf("AppleWebKit/") >= 0 || // Safari/Google Chrome
+    navigator.userAgent.indexOf("Gecko/") >= 0 || // Netscape/Gecko
+    navigator.userAgent.indexOf("Opera/") >= 0 || // Opera
+    (document.documentMode != null && document.documentMode >= 9), // IE9+
 
   /**
    * Variable: NO_FO
@@ -195,29 +207,32 @@ var mxClient = {
    * True if foreignObject support is not available. This is the case for
    * Opera, older SVG-based browsers and all versions of IE.
    */
-  NO_FO: !document.createElementNS || document.createElementNS('http://www.w3.org/2000/svg',
-    'foreignObject') != '[object SVGForeignObjectElement]' || navigator.userAgent.indexOf('Opera/') >= 0,
+  NO_FO:
+    !document.createElementNS ||
+    document.createElementNS("http://www.w3.org/2000/svg", "foreignObject") !=
+      "[object SVGForeignObjectElement]" ||
+    navigator.userAgent.indexOf("Opera/") >= 0,
 
   /**
    * Variable: IS_VML
    *
    * True if the browser supports VML.
    */
-  IS_VML: navigator.appName.toUpperCase() == 'MICROSOFT INTERNET EXPLORER',
+  IS_VML: navigator.appName.toUpperCase() == "MICROSOFT INTERNET EXPLORER",
 
   /**
    * Variable: IS_WIN
    *
    * True if the client is a Windows.
    */
-  IS_WIN: navigator.appVersion.indexOf('Win') > 0,
+  IS_WIN: navigator.appVersion.indexOf("Win") > 0,
 
   /**
    * Variable: IS_MAC
    *
    * True if the client is a Mac.
    */
-  IS_MAC: navigator.appVersion.indexOf('Mac') > 0,
+  IS_MAC: navigator.appVersion.indexOf("Mac") > 0,
 
   /**
    * Variable: IS_TOUCH
@@ -225,22 +240,24 @@ var mxClient = {
    * True if this device supports touchstart/-move/-end events (Apple iOS,
    * Android, Chromebook and Chrome Browser on touch-enabled devices).
    */
-  IS_TOUCH: 'ontouchstart' in document.documentElement,
+  IS_TOUCH: "ontouchstart" in document.documentElement,
 
   /**
    * Variable: IS_POINTER
    *
    * True if this device supports Microsoft pointer events (always false on Macs).
    */
-  IS_POINTER: window.PointerEvent != null && !(navigator.appVersion.indexOf('Mac') > 0),
+  IS_POINTER:
+    window.PointerEvent != null && !(navigator.appVersion.indexOf("Mac") > 0),
 
   /**
    * Variable: IS_LOCAL
    *
    * True if the documents location does not start with http:// or https://.
    */
-  IS_LOCAL: document.location.href.indexOf('http://') < 0
-    && document.location.href.indexOf('https://') < 0,
+  IS_LOCAL:
+    document.location.href.indexOf("http://") < 0 &&
+    document.location.href.indexOf("https://") < 0,
 
   /**
    * Variable: defaultBundles
@@ -292,16 +309,18 @@ var mxClient = {
 
     // Workaround for Operation Aborted in IE6 if base tag is used in head
     if (mxClient.IS_IE6) {
-      doc.write(`<link rel="${rel}" href="${href}" charset="UTF-8" type="text/css"/>`);
+      doc.write(
+        `<link rel="${rel}" href="${href}" charset="UTF-8" type="text/css"/>`
+      );
     } else {
-      const link = doc.createElement('link');
+      const link = doc.createElement("link");
 
-      link.setAttribute('rel', rel);
-      link.setAttribute('href', href);
-      link.setAttribute('charset', 'UTF-8');
-      link.setAttribute('type', 'text/css');
+      link.setAttribute("rel", rel);
+      link.setAttribute("href", href);
+      link.setAttribute("charset", "UTF-8");
+      link.setAttribute("type", "text/css");
 
-      const head = doc.getElementsByTagName('head')[0];
+      const head = doc.getElementsByTagName("head")[0];
       head.appendChild(link);
     }
   },
@@ -375,7 +394,7 @@ var mxClient = {
  * <script type="text/javascript" src="/path/to/core/directory/js/mxClient.js"></script>
  * (end)
  */
-if (typeof (mxLoadResources) === 'undefined') {
+if (typeof mxLoadResources === "undefined") {
   mxLoadResources = true;
 }
 
@@ -397,7 +416,7 @@ if (typeof (mxLoadResources) === 'undefined') {
 // added by wantian
 let mxForceIncludes = false;
 
-if (typeof (mxForceIncludes) === 'undefined') {
+if (typeof mxForceIncludes === "undefined") {
   mxForceIncludes = false;
 }
 
@@ -419,8 +438,8 @@ if (typeof (mxForceIncludes) === 'undefined') {
 let mxResourceExtension;
 window.mxResourceExtension = mxResourceExtension;
 
-if (typeof (mxResourceExtension) === 'undefined') {
-  mxResourceExtension = '.txt';
+if (typeof mxResourceExtension === "undefined") {
+  mxResourceExtension = ".txt";
 }
 
 /**
@@ -441,7 +460,7 @@ if (typeof (mxResourceExtension) === 'undefined') {
 // added by wantian
 let mxLoadStylesheets = false;
 
-if (typeof (mxLoadStylesheets) === 'undefined') {
+if (typeof mxLoadStylesheets === "undefined") {
   mxLoadStylesheets = true;
 }
 
@@ -462,15 +481,15 @@ if (typeof (mxLoadStylesheets) === 'undefined') {
  * When using a relative path, the path is relative to the URL of the page that
  * contains the assignment. Trailing slashes are automatically removed.
  */
-if (typeof (mxBasePath) !== 'undefined' && mxBasePath.length > 0) {
+if (typeof mxBasePath !== "undefined" && mxBasePath.length > 0) {
   // Adds a trailing slash if required
-  if (mxBasePath.substring(mxBasePath.length - 1) == '/') {
+  if (mxBasePath.substring(mxBasePath.length - 1) == "/") {
     mxBasePath = mxBasePath.substring(0, mxBasePath.length - 1);
   }
 
   mxClient.basePath = mxBasePath;
 } else {
-  mxClient.basePath = '.';
+  mxClient.basePath = ".";
 }
 
 /**
@@ -490,9 +509,9 @@ if (typeof (mxBasePath) !== 'undefined' && mxBasePath.length > 0) {
  * When using a relative path, the path is relative to the URL of the page that
  * contains the assignment. Trailing slashes are automatically removed.
  */
-if (typeof (mxImageBasePath) !== 'undefined' && mxImageBasePath.length > 0) {
+if (typeof mxImageBasePath !== "undefined" && mxImageBasePath.length > 0) {
   // Adds a trailing slash if required
-  if (mxImageBasePath.substring(mxImageBasePath.length - 1) == '/') {
+  if (mxImageBasePath.substring(mxImageBasePath.length - 1) == "/") {
     mxImageBasePath = mxImageBasePath.substring(0, mxImageBasePath.length - 1);
   }
 
@@ -532,10 +551,12 @@ if (typeof (mxImageBasePath) !== 'undefined' && mxImageBasePath.length > 0) {
  * <mxGraph.containsValidationErrorsResource> and
  * <mxGraph.alreadyConnectedResource>.
  */
-if (typeof (mxLanguage) !== 'undefined' && mxLanguage != null) {
+if (typeof mxLanguage !== "undefined" && mxLanguage != null) {
   mxClient.language = mxLanguage;
 } else {
-  mxClient.language = (mxClient.IS_IE) ? navigator.userLanguage : navigator.language;
+  mxClient.language = mxClient.IS_IE
+    ? navigator.userLanguage
+    : navigator.language;
 }
 
 /**
@@ -555,15 +576,15 @@ if (typeof (mxLanguage) !== 'undefined' && mxLanguage != null) {
  * <script type="text/javascript" src="js/mxClient.js"></script>
  * (end)
  */
-if (typeof (mxDefaultLanguage) !== 'undefined' && mxDefaultLanguage != null) {
+if (typeof mxDefaultLanguage !== "undefined" && mxDefaultLanguage != null) {
   mxClient.defaultLanguage = mxDefaultLanguage;
 } else {
-  mxClient.defaultLanguage = 'en';
+  mxClient.defaultLanguage = "en";
 }
 
 // Adds all required stylesheets and namespaces
 if (mxLoadStylesheets) {
-  mxClient.link('stylesheet', `${mxClient.basePath}/css/common.css`);
+  mxClient.link("stylesheet", `${mxClient.basePath}/css/common.css`);
 }
 
 /**
@@ -583,7 +604,7 @@ if (mxLoadStylesheets) {
  * This is used to avoid unnecessary requests to language files, ie. if a 404
  * will be returned.
  */
-if (typeof (mxLanguages) !== 'undefined' && mxLanguages != null) {
+if (typeof mxLanguages !== "undefined" && mxLanguages != null) {
   mxClient.languages = mxLanguages;
 }
 
@@ -596,35 +617,46 @@ if (mxClient.IS_VML) {
     // elements to be set using direct notation, ie. node.attr = value. The use of setAttribute
     // is not possible.
     if (document.documentMode == 8) {
-      document.namespaces.add(mxClient.VML_PREFIX, 'urn:schemas-microsoft-com:vml', '#default#VML');
-      document.namespaces.add(mxClient.OFFICE_PREFIX, 'urn:schemas-microsoft-com:office:office', '#default#VML');
+      document.namespaces.add(
+        mxClient.VML_PREFIX,
+        "urn:schemas-microsoft-com:vml",
+        "#default#VML"
+      );
+      document.namespaces.add(
+        mxClient.OFFICE_PREFIX,
+        "urn:schemas-microsoft-com:office:office",
+        "#default#VML"
+      );
     } else {
-      document.namespaces.add(mxClient.VML_PREFIX, 'urn:schemas-microsoft-com:vml');
-      document.namespaces.add(mxClient.OFFICE_PREFIX, 'urn:schemas-microsoft-com:office:office');
+      document.namespaces.add(
+        mxClient.VML_PREFIX,
+        "urn:schemas-microsoft-com:vml"
+      );
+      document.namespaces.add(
+        mxClient.OFFICE_PREFIX,
+        "urn:schemas-microsoft-com:office:office"
+      );
     }
 
     // Workaround for limited number of stylesheets in IE (does not work in standards mode)
     if (mxClient.IS_QUIRKS && document.styleSheets.length >= 30) {
       (function () {
-        const node = document.createElement('style');
-        node.type = 'text/css';
-        node.styleSheet.cssText = `${mxClient.VML_PREFIX}\\:*{behavior:url(#default#VML)}${
-          mxClient.OFFICE_PREFIX}\\:*{behavior:url(#default#VML)}`;
-        document.getElementsByTagName('head')[0].appendChild(node);
-      }());
+        const node = document.createElement("style");
+        node.type = "text/css";
+        node.styleSheet.cssText = `${mxClient.VML_PREFIX}\\:*{behavior:url(#default#VML)}${mxClient.OFFICE_PREFIX}\\:*{behavior:url(#default#VML)}`;
+        document.getElementsByTagName("head")[0].appendChild(node);
+      })();
     } else {
-      document.createStyleSheet().cssText = `${mxClient.VML_PREFIX}\\:*{behavior:url(#default#VML)}${
-        mxClient.OFFICE_PREFIX}\\:*{behavior:url(#default#VML)}`;
+      document.createStyleSheet().cssText = `${mxClient.VML_PREFIX}\\:*{behavior:url(#default#VML)}${mxClient.OFFICE_PREFIX}\\:*{behavior:url(#default#VML)}`;
     }
 
     if (mxLoadStylesheets) {
-      mxClient.link('stylesheet', `${mxClient.basePath}/css/explorer.css`);
+      mxClient.link("stylesheet", `${mxClient.basePath}/css/explorer.css`);
     }
 
     // Cleans up resources when the application terminates
-    window.attachEvent('onunload', mxClient.dispose);
+    window.attachEvent("onunload", mxClient.dispose);
   }
 }
-
 
 window.mxClient = mxClient;

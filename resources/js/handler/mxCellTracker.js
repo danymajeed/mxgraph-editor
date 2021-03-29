@@ -83,9 +83,13 @@ function mxCellTracker(graph, color, funct) {
 
   // Automatic deallocation of memory
   if (mxClient.IS_IE) {
-    mxEvent.addListener(window, 'unload', mxUtils.bind(this, function () {
-      this.destroy();
-    }));
+    mxEvent.addListener(
+      window,
+      "unload",
+      mxUtils.bind(this, function () {
+        this.destroy();
+      })
+    );
   }
 }
 
@@ -99,8 +103,7 @@ mxUtils.extend(mxCellTracker, mxCellMarker);
  *
  * Ignores the event. The event is not consumed.
  */
-mxCellTracker.prototype.mouseDown = function (sender, me) {
-};
+mxCellTracker.prototype.mouseDown = function (sender, me) {};
 
 /**
  * Function: mouseMove

@@ -47,9 +47,11 @@ function mxCellMarker(graph, validColor, invalidColor, hotspot) {
 
   if (graph != null) {
     this.graph = graph;
-    this.validColor = (validColor != null) ? validColor : mxConstants.DEFAULT_VALID_COLOR;
-    this.invalidColor = (validColor != null) ? invalidColor : mxConstants.DEFAULT_INVALID_COLOR;
-    this.hotspot = (hotspot != null) ? hotspot : mxConstants.DEFAULT_HOTSPOT;
+    this.validColor =
+      validColor != null ? validColor : mxConstants.DEFAULT_VALID_COLOR;
+    this.invalidColor =
+      validColor != null ? invalidColor : mxConstants.DEFAULT_INVALID_COLOR;
+    this.hotspot = hotspot != null ? hotspot : mxConstants.DEFAULT_HOTSPOT;
 
     this.highlight = new mxCellHighlight(graph);
   }
@@ -254,8 +256,9 @@ mxCellMarker.prototype.process = function (me) {
  * Sets and marks the current valid state.
  */
 mxCellMarker.prototype.setCurrentState = function (state, me, color) {
-  const isValid = (state != null) ? this.isValidState(state) : false;
-  color = (color != null) ? color : this.getMarkerColor(me.getEvent(), state, isValid);
+  const isValid = state != null ? this.isValidState(state) : false;
+  color =
+    color != null ? color : this.getMarkerColor(me.getEvent(), state, isValid);
 
   if (isValid) {
     this.validState = state;
@@ -285,7 +288,7 @@ mxCellMarker.prototype.markCell = function (cell, color) {
   const state = this.graph.getView().getState(cell);
 
   if (state != null) {
-    this.currentColor = (color != null) ? color : this.validColor;
+    this.currentColor = color != null ? color : this.validColor;
     this.markedState = state;
     this.mark();
   }
@@ -299,7 +302,7 @@ mxCellMarker.prototype.markCell = function (cell, color) {
 mxCellMarker.prototype.mark = function () {
   this.highlight.setHighlightColor(this.currentColor);
   this.highlight.highlight(this.markedState);
-  this.fireEvent(new mxEventObject(mxEvent.MARK, 'state', this.markedState));
+  this.fireEvent(new mxEventObject(mxEvent.MARK, "state", this.markedState));
 };
 
 /**
@@ -329,7 +332,7 @@ mxCellMarker.prototype.isValidState = function (state) {
  * The given <mxCellState> is ignored by this implementation.
  */
 mxCellMarker.prototype.getMarkerColor = function (evt, state, isValid) {
-  return (isValid) ? this.validColor : this.invalidColor;
+  return isValid ? this.validColor : this.invalidColor;
 };
 
 /**
@@ -343,7 +346,7 @@ mxCellMarker.prototype.getState = function (me) {
   const cell = this.getCell(me);
   const state = this.getStateToMark(view.getState(cell));
 
-  return (state != null && this.intersects(state, me)) ? state : null;
+  return state != null && this.intersects(state, me) ? state : null;
 };
 
 /**
@@ -375,9 +378,14 @@ mxCellMarker.prototype.getStateToMark = function (state) {
  */
 mxCellMarker.prototype.intersects = function (state, me) {
   if (this.hotspotEnabled) {
-    return mxUtils.intersectsHotspot(state, me.getGraphX(), me.getGraphY(),
-      this.hotspot, mxConstants.MIN_HOTSPOT_SIZE,
-      mxConstants.MAX_HOTSPOT_SIZE);
+    return mxUtils.intersectsHotspot(
+      state,
+      me.getGraphX(),
+      me.getGraphY(),
+      this.hotspot,
+      mxConstants.MIN_HOTSPOT_SIZE,
+      mxConstants.MAX_HOTSPOT_SIZE
+    );
   }
 
   return true;

@@ -38,12 +38,13 @@ function mxSelectionCellsHandler(graph) {
 
     const arr = [];
 
-    cells && Object.keys(cells).forEach((key) => {
-      const cell = cells[key];
-      if (!cell.disabled) {
-        arr.push(cell);
-      }
-    });
+    cells &&
+      Object.keys(cells).forEach((key) => {
+        const cell = cells[key];
+        if (!cell.disabled) {
+          arr.push(cell);
+        }
+      });
 
     sender.cells = arr;
     // add by wantian begin
@@ -53,11 +54,15 @@ function mxSelectionCellsHandler(graph) {
     }
   });
 
-  this.graph.getSelectionModel().addListener(mxEvent.CHANGE, this.refreshHandler);
+  this.graph
+    .getSelectionModel()
+    .addListener(mxEvent.CHANGE, this.refreshHandler);
   this.graph.getModel().addListener(mxEvent.CHANGE, this.refreshHandler);
   this.graph.getView().addListener(mxEvent.SCALE, this.refreshHandler);
   this.graph.getView().addListener(mxEvent.TRANSLATE, this.refreshHandler);
-  this.graph.getView().addListener(mxEvent.SCALE_AND_TRANSLATE, this.refreshHandler);
+  this.graph
+    .getView()
+    .addListener(mxEvent.SCALE_AND_TRANSLATE, this.refreshHandler);
   this.graph.getView().addListener(mxEvent.DOWN, this.refreshHandler);
   this.graph.getView().addListener(mxEvent.UP, this.refreshHandler);
 }
@@ -174,7 +179,7 @@ mxSelectionCellsHandler.prototype.refresh = function () {
 
       if (handler == null) {
         handler = this.graph.createHandler(state);
-        this.fireEvent(new mxEventObject(mxEvent.ADD, 'state', state));
+        this.fireEvent(new mxEventObject(mxEvent.ADD, "state", state));
       }
 
       if (handler != null) {
@@ -184,10 +189,12 @@ mxSelectionCellsHandler.prototype.refresh = function () {
   }
 
   // Destroys all unused handlers
-  oldHandlers.visit(mxUtils.bind(this, function (key, handler) {
-    this.fireEvent(new mxEventObject(mxEvent.REMOVE, 'state', handler.state));
-    handler.destroy();
-  }));
+  oldHandlers.visit(
+    mxUtils.bind(this, function (key, handler) {
+      this.fireEvent(new mxEventObject(mxEvent.REMOVE, "state", handler.state));
+      handler.destroy();
+    })
+  );
 };
 
 /**

@@ -1,5 +1,5 @@
-import '../resources/index';
-import util from '../common/util';
+import "../resources/index";
+import util from "../common/util";
 
 export default class Editor {
   constructor(props) {
@@ -7,15 +7,10 @@ export default class Editor {
   }
 
   init(props) {
-    const {
-      container,
-      cellCreatedFunc,
-      valueChangeFunc,
-    } = props;
-
+    const { container, cellCreatedFunc, valueChangeFunc } = props;
 
     let containerEle;
-    if (typeof container === 'string') {
+    if (typeof container === "string") {
       containerEle = document.querySelector(container);
     } else {
       containerEle = container;
@@ -39,7 +34,8 @@ export default class Editor {
     this.valueChangeFunc = valueChangeFunc;
   }
 
-  initEditor(config) { // eslint-disable-line
+  initEditor(config) {
+    // eslint-disable-line
     const {
       graph,
       clickFunc,
@@ -53,7 +49,7 @@ export default class Editor {
       changeFunc,
       IMAGE_SHAPES,
       CARD_SHAPES,
-      SVG_SHAPES
+      SVG_SHAPES,
     } = config;
 
     graph.gridSize = 30;
@@ -76,19 +72,19 @@ export default class Editor {
       graph,
       IMAGE_SHAPES,
       CARD_SHAPES,
-      SVG_SHAPES
+      SVG_SHAPES,
     });
 
     // undo event listener
     util.undoListener({
       graph,
-      callback: undoFunc
+      callback: undoFunc,
     });
 
     // copy event listener
     util.copyListener({
       graph,
-      callback: copyFunc
+      callback: copyFunc,
     });
 
     // delete event listener
@@ -160,7 +156,6 @@ export default class Editor {
     });
   }
 
-
   /**
    * update style
    * @param {*} cell cell
@@ -179,29 +174,32 @@ export default class Editor {
     cell.value = labelName;
     cell.isGroupCell = true;
 
-    cellsGrouped && cellsGrouped.forEach((item) => {
-      item.isGrouped = true;
-    });
+    cellsGrouped &&
+      cellsGrouped.forEach((item) => {
+        item.isGrouped = true;
+      });
 
     // util.updateStyle(this.graph, cell, 'strokeColor', 'none');
-    util.updateStyle(this.graph, cell, 'fillColor', 'none');
-    util.updateStyle(this.graph, cell, 'dashed', 1);
-    util.updateStyle(this.graph, cell, 'verticalLabelPosition', 'bottom');
-    util.updateStyle(this.graph, cell, 'verticalAlign', 'top');
+    util.updateStyle(this.graph, cell, "fillColor", "none");
+    util.updateStyle(this.graph, cell, "dashed", 1);
+    util.updateStyle(this.graph, cell, "verticalLabelPosition", "bottom");
+    util.updateStyle(this.graph, cell, "verticalAlign", "top");
 
     return { groupCell: cell, cellsGrouped };
   }
 
   handleUngroupCells(cells) {
-    cells && cells.forEach((cell) => {
-      if (cell.isGroupCell) {
-        cell.isGroupCell = false;
-      }
+    cells &&
+      cells.forEach((cell) => {
+        if (cell.isGroupCell) {
+          cell.isGroupCell = false;
+        }
 
-      cell.children && cell.children.forEach((child) => {
-        child.isGrouped = false;
+        cell.children &&
+          cell.children.forEach((child) => {
+            child.isGrouped = false;
+          });
       });
-    });
 
     return cells;
   }
@@ -214,23 +212,25 @@ export default class Editor {
 
     const groupCells = [];
 
-    tempCells && tempCells.forEach((cell) => {
-      if (cell.isGroupCell) {
-        groupCells.push(cell);
-      }
+    tempCells &&
+      tempCells.forEach((cell) => {
+        if (cell.isGroupCell) {
+          groupCells.push(cell);
+        }
 
-      cell.children && cell.children.forEach((child) => {
-        if (child.isGroupCell) {
-          groupCells.push(child);
+        cell.children &&
+          cell.children.forEach((child) => {
+            if (child.isGroupCell) {
+              groupCells.push(child);
+            }
+          });
+
+        const { parent } = cell;
+
+        if (parent && parent.isGroupCell) {
+          groupCells.push(parent);
         }
       });
-
-      const { parent } = cell;
-
-      if (parent && parent.isGroupCell) {
-        groupCells.push(parent);
-      }
-    });
 
     this.handleUngroupCells(groupCells);
 
@@ -274,7 +274,16 @@ export default class Editor {
     const { graph } = this;
 
     const parent = graph.getDefaultParent();
-    const cell = graph.insertVertex(parent, null, shapeLabel, x, y, width, height, shapeStyle);
+    const cell = graph.insertVertex(
+      parent,
+      null,
+      shapeLabel,
+      x,
+      y,
+      width,
+      height,
+      shapeStyle
+    );
 
     return cell;
   }
@@ -287,7 +296,7 @@ export default class Editor {
   insertEdge(v1, v2) {
     const parent = this.graph.getDefaultParent();
 
-    return this.graph.insertEdge(parent, null, '', v1, v2);
+    return this.graph.insertEdge(parent, null, "", v1, v2);
   }
 
   /**
@@ -299,11 +308,12 @@ export default class Editor {
 
     let cell;
 
-    cells && Object.keys(cells).forEach((key) => {
-      if (cells[key].id === id) {
-        cell = cells[key];
-      }
-    });
+    cells &&
+      Object.keys(cells).forEach((key) => {
+        if (cells[key].id === id) {
+          cell = cells[key];
+        }
+      });
 
     return cell;
   }
@@ -315,7 +325,6 @@ export default class Editor {
     const { cells } = this.graph.model;
     return cells;
   }
-
 
   removeEventListeners() {
     return util.removeEventListeners();

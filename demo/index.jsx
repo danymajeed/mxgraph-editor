@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MyEditor from './my-editor';
-import './index.less';
+import React from "react";
+import ReactDOM from "react-dom";
+import MyEditor from "./my-editor";
+import "./index.less";
 
 const App = () => (
   <div className="mxgraph-editor-container">
@@ -9,5 +9,4 @@ const App = () => (
   </div>
 );
 
-
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
