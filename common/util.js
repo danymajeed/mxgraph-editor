@@ -205,7 +205,6 @@ export default {
           cell.geometry.relative = true;
           cell.edge = true;
           cell.shapeName = shapeName;
-          cell.id = id;
 
           const cells = graph.importCells([cell], x, y, target);
 
@@ -221,7 +220,7 @@ export default {
           if (parent) {
             const cell = graph.insertVertex(
               parent,
-              id,
+              null,
               shapeLabel,
               x,
               y,
