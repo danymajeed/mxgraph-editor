@@ -1,7 +1,7 @@
 export default {
   Rectangle: {
     type: "vertex",
-    style: "rounded=0;whiteSpace=wrap;html=1;fillColor=lightgrey",
+    style: "rounded=0;whiteSpace=wrap;html=1",
   },
   "Rounded Rectangle": {
     type: "vertex",

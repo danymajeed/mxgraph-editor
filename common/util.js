@@ -35,16 +35,26 @@ export default {
     new mxRubberband(graph); //eslint-disable-line
   },
 
+  clearGraph(config) {
+    const { graph } = config;
+
+    const model = graph.getModel();
+    var root = new mxCell();
+    root.id = 0;
+    root.insert(new mxCell());
+    model.setRoot(root);
+  },
+
   configShapes(config) {
     const { graph, IMAGE_SHAPES, CARD_SHAPES, SVG_SHAPES } = config;
 
     const { stylesheet } = graph;
     const vertexStyle = stylesheet.getDefaultVertexStyle();
-    vertexStyle[mxConstants.STYLE_STROKECOLOR] = "#B9BECC"; //eslint-disable-line
+    vertexStyle[mxConstants.STYLE_STROKECOLOR] = "black"; //eslint-disable-line
     vertexStyle[mxConstants.STYLE_FILLCOLOR] = "#ffffff"; //eslint-disable-line
     vertexStyle[mxConstants.STYLE_FONTCOLOR] = "#333"; //eslint-disable-line
     const edgeStyle = stylesheet.getDefaultEdgeStyle();
-    edgeStyle[mxConstants.STYLE_STROKECOLOR] = "#B9BECC"; //eslint-disable-line
+    edgeStyle[mxConstants.STYLE_STROKECOLOR] = "black"; //eslint-disable-line
     edgeStyle[mxConstants.STYLE_STROKEWIDTH] = 1; //eslint-disable-line
     edgeStyle[mxConstants.STYLE_FONTCOLOR] = "#333"; //eslint-disable-line
 
@@ -531,12 +541,12 @@ export default {
     // of the edge. The ElbowConnector edge style switches to TopToBottom
     // if the horizontal style is true.
     const style = graph.getStylesheet().getDefaultEdgeStyle();
-    style[mxConstants.STYLE_ROUNDED] = true; //eslint-disable-line
+    style[mxConstants.STYLE_ROUNDED] = false; //eslint-disable-line
     // style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector; // 备选：orthogonalEdgeStyle
     style[mxConstants.STYLE_EDGE] = "orthogonalEdgeStyle"; //eslint-disable-line
     // style[mxConstants.STYLE_STROKEWIDTH] = 1;
 
-    // graph.alternateEdgeStyle = 'elbow=vertical';
+    // graph.alternateEdgeStyle = "elbow=vertical";
 
     // Snaps to fixed points
     mxConstraintHandler.prototype.intersects = function (
