@@ -3,6 +3,8 @@ import DEFAULT_IMAGE_SHAPES from "../config/image-shape";
 
 import STENCILS from "../config/stencils/index";
 import GENERAL_SHAPES from "../config/general-shape";
+import UML_SHAPES from "../config/uml-shape";
+
 import "./basic-shapes-generator";
 
 export default {
@@ -138,6 +140,11 @@ export default {
             isEdge = true;
           }
           shapeStyle = GENERAL_SHAPES[shapeName].style;
+        } else if (shapeType === "uml") {
+          if (UML_SHAPES[shapeName].type === "edge") {
+            isEdge = true;
+          }
+          shapeStyle = UML_SHAPES[shapeName].style;
         } else if (shapeType === "image") {
           const shape = this.findItemFromArray(this.imageShapes, {
             key: shapeName,

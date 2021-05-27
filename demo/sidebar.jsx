@@ -7,6 +7,44 @@ import "./sidebar.less";
 
 const { Panel } = Collapse;
 
+const UML_SHAPES = [
+  {
+    name: "usecase",
+    key: "Use Case",
+    logo: "https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg",
+    width: 115,
+    height: 45,
+  },
+  {
+    name: "actor",
+    key: "Actor",
+    logo: "https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg",
+    width: 60,
+    height: 120,
+  },
+  {
+    name: "class",
+    key: "Class",
+    logo: "https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg",
+    width: 180,
+    height: 100,
+  },
+  {
+    name: "aggregate",
+    key: "Aggregate Arrow",
+    logo: "https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg",
+    width: 0,
+    height: 0,
+  },
+  {
+    name: "generalization",
+    key: "Generalization Arrow",
+    logo: "https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg",
+    width: 0,
+    height: 0,
+  },
+];
+
 const SIDEBAR_BASIC_SHAPES = [
   {
     name: "rectangle",
@@ -160,6 +198,39 @@ export default class SideBar extends React.Component {
                 key={`panel_a_${shape.key}`}
                 className="geItem custom-sidebar-node common-panel-node"
                 data-shape-type="general"
+                data-shape-name={shape.key}
+                data-shape-label={shape.name}
+                data-shape-width={shape.width}
+                data-shape-height={shape.height}
+              >
+                <Tooltip
+                  placement="top"
+                  title={shape.name}
+                  key={`panel_${shape.key}`}
+                  className="tooltip"
+                >
+                  {shape.logo ? (
+                    <img
+                      className="sidebar-node-image"
+                      src={shape.logo}
+                      alt=""
+                    />
+                  ) : (
+                    shape.key
+                  )}
+                  <span className="sidebar-node-label">{shape.name}</span>
+                </Tooltip>
+              </a>
+            ))}
+          </Panel>
+
+          <Panel key="uml shapes" header="UML">
+            {UML_SHAPES.map((shape) => (
+              <a
+                href="javascript:void(0);"
+                key={`panel_a_${shape.key}`}
+                className="geItem custom-sidebar-node common-panel-node"
+                data-shape-type="uml"
                 data-shape-name={shape.key}
                 data-shape-label={shape.name}
                 data-shape-width={shape.width}
