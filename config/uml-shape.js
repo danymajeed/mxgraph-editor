@@ -23,4 +23,32 @@ export default {
     type: "edge",
     style: "strokeColor=black;endArrow=block;endSize=10;endFill=0;html=1;",
   },
+  Decision: {
+    type: "vertex",
+    style: "shape=rhombus;fontStyle=2;textColor=black;fillColor=white;strokeColor=black",
+  },
+  "Activity Start": {
+    type: "vertex",
+    style: "shape=ellipse;fontStyle=2;whiteSpace=wrap;html=1;aspect=fixed;fontColor=white;fillColor=green;strokeColor=black"
+  },
+  "Activity End": {
+    type: "vertex",
+    style: "shape=doubleEllipse;fontStyle=2;whiteSpace=wrap;html=1;aspect=fixed;fontColor=white;fillColor=red;strokeColor=black"
+  },
+  "Activity Decision": {
+    type: "vertex",
+    style: "shape=rhombus;fontStyle=2;textColor=black;fillColor=white;strokeColor=black",
+  },
+  "Include Extend": {
+    type: "edge",
+    style: "edgeStyle=loopEdgeStyle;endSize=10;endArrow=open;dashed=1;html=1;",
+  },
+  Process: {
+    type: "vertex",
+    style: "rounded=1;whiteSpace=wrap;html=1;",
+  },
+  "Directional Connector": {
+    type: "edge",
+    style: "edgeStyle=loopEdgeStyle;endArrow=classic;html=1;",
+  },
 };
